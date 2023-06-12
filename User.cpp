@@ -100,6 +100,9 @@ string User::getTweet (size_t start , size_t end)
             outPut << i << ')' << tweetOfUser[i].getTweetStr() << '\n' ;
     }
 
+    if(outPut.str().empty())
+        outPut << "no tweet yet :) " ;
+
     return outPut.str();
 }
 
