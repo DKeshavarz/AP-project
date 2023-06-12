@@ -36,21 +36,26 @@ void Twitterak::run()
 } 
 void Twitterak::showMenu() 
 {
+    bool isGoing = 1 ;
     string caseOfMenu {""} ;
-
-    while(caseOfMenu != "exit")
+    while(isGoing)
     {
+        caseOfMenu = "" ;
         cout << ">";
 
         getline(cin,caseOfMenu);
         lowerStr(caseOfMenu) ;
 
-        if     (caseOfMenu.substr(0,6) == "login ") //still need work 
+        if     (caseOfMenu.substr(0,6) == "login") //still need work 
             logIn() ;
         else if(caseOfMenu == "signup")
             signUp();
         else if(caseOfMenu == "help")
             cout << help() ;
+        else if(caseOfMenu == "")
+        {}
+        else if(caseOfMenu == "exit" || caseOfMenu == "q" || caseOfMenu == "quit")
+            isGoing = 0 ;
         else
             cout << "wrong commant try agane\n" ;  //can be done with execption
 
@@ -118,6 +123,7 @@ void Twitterak::signUp ()
             cout << err.what() << "\n" ;
         }
     }
+    cin.ignore() ;
 }
 
 string Twitterak::help() const
@@ -143,7 +149,7 @@ void Twitterak::userOptions (const string& userName)
         getline(cin , command) ;
         lowerStr(command) ;
 
-        if(command.substr(0,8) == "profile " || command == "me ")
+        if(command.substr(0,7) == "profile" || command == "me")
         {   
             if(command.size() > 7)
                 cout << usersMap[bringImportant(command , 8)].print() << '\n';
@@ -161,23 +167,27 @@ void Twitterak::userOptions (const string& userName)
         }
         else if(usersMap.count(bringImportant(command,0)))
         {
-            string tweet = usersMap[bringImportant(command,0)].getTweet() ;
-            if(tweet.empty())
-                cout << "no tweet yet :) " << '\n' ;
-            else
-                cout << tweet << "\n" ;
+            cout << usersMap[bringImportant(command,0)].getTweet() << '\n' ;
         }
-        else if(command.substr(0,12) == "delete tweet")
+        else if(command.substr(0,13) == "delete tweet ")
         {
             usersMap[userName].deleteTweet(bringImportant(command,13)) ;
         }
-        else if(command.substr(0,10) == "edit tweet")
+        else if(command.substr(0,11) == "edit tweet ")
         {
             usersMap[userName].editTweet(bringImportant(command,11)) ;
         }
-        else if(command.substr(0,4) == "like")
+        else if(command.substr(0,5) == "like ")
         {
             //if( usersMap.count( command.substr(,4) ) )
+        }
+        else if(command == "logout")
+        {
+            //empty
+        }
+        else if(command == "") 
+        {
+            //empty
         }
         else
         {
