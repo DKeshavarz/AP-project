@@ -15,19 +15,19 @@ User::User ()
 User::User (string firsName,string userName,string password) :tweetNumber{1}
 {
     setFirsrName(firsName) ;
-    setUserName(userName) ;
-    setPassword(password) ;
+    setUserName (userName) ;
+    setPassword (password) ;
 }
-void  User::setFirsrName (std::string fName ) 
+void  User::setFirsrName (string fName ) 
 {
     firsName = fName ;
 }
-void User::setUserName (std::string Uname) 
+void User::setUserName   (string Uname) 
 {   
     if(Uname.size() < 5)
-        throw invalid_argument("user name is to short") ;
+        throw invalid_argument("!user name is to short") ;
     else if('0' <= Uname[0] && Uname[0] <= '9')
-        throw invalid_argument("user name shouldn't start with numbers") ;
+        throw invalid_argument("!user name shouldn't start with numbers") ;
 
     for(size_t i = 1 ; i < Uname.size() ; ++i)
     {
@@ -35,14 +35,14 @@ void User::setUserName (std::string Uname)
             !('a' <= Uname[i] && Uname[i] <= 'z') &&
             !('A' <= Uname[i] && Uname[i] <= 'Z'))
         {
-            throw invalid_argument ("user name contain invalic character") ;
+            throw invalid_argument ("!user name contain invalic character") ;
         }
     }
 
-    string reservedWord {"exit,help,login"} ;//it may contion more...
+    string reservedWord {"exit,help,login,edit,signup,logout"} ;//it may contion more...//i add some
 
     if(reservedWord.find(Uname) != string::npos)
-        throw invalid_argument ("user name is a command!!") ;
+        throw invalid_argument ("!user name is a command!!") ;
     
     userName = Uname ;  
 }
@@ -56,7 +56,7 @@ void User::setBiogarghy (string bio)
     if(bio.size() < 160)
         biogarghy = bio ;
     else
-        throw invalid_argument("len of biograghy is too long") ;
+        throw invalid_argument("!len of biograghy is too long...") ;
 }
 void User::setCountry (string country)
 {
