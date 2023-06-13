@@ -2,6 +2,7 @@
 #include <map>
 
 #include "Tweet.h"
+#include "Date.h"
 
 #ifndef USER_H
 #define USER_H
