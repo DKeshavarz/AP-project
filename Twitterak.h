@@ -15,7 +15,7 @@ class Twitterak
     private :
         std::unordered_map<std::string,User> usersMap ;
 
-        void logIn(std::string = "", std::string  = "");
+        void logIn(std::vector<std::string>);
         void showMenu();
         void signUp  () ;
         std::string help() const ;

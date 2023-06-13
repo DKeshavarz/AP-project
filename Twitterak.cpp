@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <cctype>
+#include <vector>
 
 #include "Twitterak.h" 
 #include "User.h"
@@ -27,11 +28,38 @@ string bringImportant(const string& command, size_t start ) //sugest to pass arg
 
     return important ;
 }
+vector <string> separateWords(string command)
+{
+        
+    vector<string>words ;
+    string temp {} ;
+
+    if(command == "")
+    {
+        words.push_back("") ;
+        return words ;
+    }
+
+    for (long unsigned int i = 0 ; i < command.size() ; ++i)
+    {
+        if(command[i] != ' ')
+            temp += command[i] ;
+        else
+        {
+            words.push_back(temp);
+            temp = "" ;
+        }
+    }
+
+    words.push_back(temp) ;
+
+    return words ;
+}
 
 //member functions    *************************
 void Twitterak::run()
 {
-    cout << "welcom to twitterak \nmade by group of losers\nuse help command if you are new\n" ;
+    cout << "wellcom to twitterak \nmade by group of LOSERS\nuse help command if you are new\n" ;
     showMenu() ; 
 } 
 void Twitterak::showMenu() 
@@ -45,35 +73,47 @@ void Twitterak::showMenu()
 
         getline(cin,caseOfMenu);
         lowerStr(caseOfMenu) ;
+        vector<string> words = separateWords(caseOfMenu) ;
 
-        if     (caseOfMenu.substr(0,6) == "login") //still need work 
-            logIn() ;
-        else if(caseOfMenu == "signup")
+
+        if     (words[0] == "login") //still need work 
+            logIn(words) ;
+        else if(words[0] == "signup")
             signUp();
-        else if(caseOfMenu == "help")
+        else if(words[0] == "help")
             cout << help() ;
-        else if(caseOfMenu == "")
-        {}
-        else if(caseOfMenu == "exit" || caseOfMenu == "q" || caseOfMenu == "quit")
+        else if(words[0] == "");
+        else if(words[0] == "exit" || caseOfMenu == "q" || caseOfMenu == "quit")
             isGoing = 0 ;
         else
             cout << "wrong commant try agane\n" ;  //can be done with execption
 
     }
 }
-void Twitterak::logIn(string tempUserName , string tempPassword)
+void Twitterak::logIn(std::vector<std::string>words)
 {
     system("clear") ; 
-
-    if(tempUserName.empty())
+    string tempPassword , tempUserName ;
+ 
+    if(words.size() <= 1)
     {
         cout << "enter yout user name :";
         cin >> tempUserName ;
+        
     }
-    if(tempPassword.empty())
+    else
+    {
+        tempUserName = words[1] ;
+    }
+    if(words.size() <= 2)
     {
         cout << "enter your password : ";
-        cin >> tempPassword ; 
+        cin >> tempPassword ;
+        words.push_back(tempPassword) ; 
+    }
+    else
+    {
+        tempUserName = words[1] ;
     }
 
     if(usersMap.count(tempUserName))
@@ -116,7 +156,9 @@ void Twitterak::signUp ()
             User temp(tempName,tempUserName,tempPassword) ;
             usersMap[tempUserName] = temp;
             cout << "registration successful\n" ;
-            logIn(tempUserName,tempPassword) ;
+
+            vector<string>words {tempName , tempUserName , tempPassword};
+            logIn(words) ;
         }
         catch (invalid_argument &err)
         {
