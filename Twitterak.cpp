@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <cctype>
-#include <vector>
 
 #include "Twitterak.h" 
 #include "User.h"
@@ -28,38 +27,11 @@ string bringImportant(const string& command, size_t start ) //sugest to pass arg
 
     return important ;
 }
-vector <string> separateWords(string command)
-{
-        
-    vector<string>words ;
-    string temp {} ;
-
-    if(command == "")
-    {
-        words.push_back("") ;
-        return words ;
-    }
-
-    for (long unsigned int i = 0 ; i < command.size() ; ++i)
-    {
-        if(command[i] != ' ')
-            temp += command[i] ;
-        else
-        {
-            words.push_back(temp);
-            temp = "" ;
-        }
-    }
-
-    words.push_back(temp) ;
-
-    return words ;
-}
 
 //member functions    *************************
 void Twitterak::run()
 {
-    cout << "wellcom to twitterak \nmade by group of LOSERS\nuse help command if you are new\n" ;
+    cout << "Wellcom to twitterak \nMade by group of LOSERS!\nUse help command if you are new!\n" ;
     showMenu() ; 
 } 
 void Twitterak::showMenu() 
@@ -73,47 +45,35 @@ void Twitterak::showMenu()
 
         getline(cin,caseOfMenu);
         lowerStr(caseOfMenu) ;
-        vector<string> words = separateWords(caseOfMenu) ;
 
-
-        if     (words[0] == "login") //still need work 
-            logIn(words) ;
-        else if(words[0] == "signup")
+        if     (caseOfMenu.substr(0,6) == "login") //still need work 
+            logIn() ;
+        else if(caseOfMenu == "signup")
             signUp();
-        else if(words[0] == "help")
+        else if(caseOfMenu == "help")
             cout << help() ;
-        else if(words[0] == "");
-        else if(words[0] == "exit" || caseOfMenu == "q" || caseOfMenu == "quit")
+        else if(caseOfMenu == "")
+        {}
+        else if(caseOfMenu == "exit" || caseOfMenu == "q" || caseOfMenu == "quit")
             isGoing = 0 ;
         else
-            cout << "wrong commant try agane\n" ;  //can be done with execption
+            cout << "!Wrong commant! try again!\n" ;  //can be done with execption
 
     }
 }
-void Twitterak::logIn(std::vector<std::string>words)
+void Twitterak::logIn(string tempUserName , string tempPassword)
 {
     system("clear") ; 
-    string tempPassword , tempUserName ;
- 
-    if(words.size() <= 1)
+
+    if(tempUserName.empty())
     {
-        cout << "enter yout user name :";
+        cout << "$Username :";
         cin >> tempUserName ;
-        
     }
-    else
+    if(tempPassword.empty())
     {
-        tempUserName = words[1] ;
-    }
-    if(words.size() <= 2)
-    {
-        cout << "enter your password : ";
-        cin >> tempPassword ;
-        words.push_back(tempPassword) ; 
-    }
-    else
-    {
-        tempUserName = words[1] ;
+        cout << "$Password : ";
+        cin >> tempPassword ; 
     }
 
     if(usersMap.count(tempUserName))
@@ -121,19 +81,19 @@ void Twitterak::logIn(std::vector<std::string>words)
         int wrongTrys {2} ;
         for( ;usersMap[tempUserName].getPassword() != tempPassword && wrongTrys > 0 ; wrongTrys--)//is it correct?
         {
-            cout << "incorect password\n" << wrongTrys << "try remain :";
+            cout << "!Incorect password\n" << wrongTrys << "Try remain :";
             cin >> tempPassword ;   
         }
         
         if(wrongTrys > 0 )
         {
-            cout << "wellcom " << usersMap[tempUserName].getFirstName() << '\n' ;
+            cout << "Wellcom " << usersMap[tempUserName].getFirstName() << '\n' ;
             userOptions(tempUserName) ;
         }
     }
     else
     {
-        cout << "user not found\n" ;
+        cout << "!User not found!\n" ;
     }   
 }
 void Twitterak::signUp () 
@@ -141,13 +101,13 @@ void Twitterak::signUp ()
     system("clear") ;
     string tempName , tempUserName , tempPassword ; 
 
-    cout << "enter your name : "    ;cin >> tempName ;
-    cout << "enter yout user name :";cin >> tempUserName ; //carefull about @m1234
-    cout << "enter your password : ";cin >> tempPassword ; 
+    cout << "$Name : "    ;cin >> tempName ;
+    cout << "$Username :" ;cin >> tempUserName ; //carefull about @m1234
+    cout << "$Password : ";cin >> tempPassword ; 
  
     if(usersMap.count(tempUserName))
     {
-        cout << "!duplicate user name\n" ; 
+        cout << "!Duplicate user name\n" ; 
     }
     else
     {
@@ -155,10 +115,8 @@ void Twitterak::signUp ()
         {
             User temp(tempName,tempUserName,tempPassword) ;
             usersMap[tempUserName] = temp;
-            cout << "registration successful\n" ;
-
-            vector<string>words {tempName , tempUserName , tempPassword};
-            logIn(words) ;
+            cout << "*Registration successful\n" ;
+            logIn(tempUserName,tempPassword) ;
         }
         catch (invalid_argument &err)
         {
@@ -173,11 +131,11 @@ string Twitterak::help() const
     system ("clear") ;
 
     ostringstream outPut ;
-    outPut << "login  : for login you have to sign in befor\n"
-           << "signup : if you don't have acount account use this opstion to creat on\n"
-           << "exit   : close program\n" ;
+    outPut << "login  : For login you have to sign in befor.\n"
+           << "signup : If you don't have acount account use this opstion to creat on.\n"
+           << "exit   : Close the program.\n" ;
 
-    return outPut.str() ;
+    return outPut.str() ; // I dont understand why use .str()?
 }
 void Twitterak::userOptions (const string& userName) 
 {
@@ -233,7 +191,7 @@ void Twitterak::userOptions (const string& userName)
         }
         else
         {
-            cout << "invalid command \n" ;
+            cout << "!invalid command \n" ;
         }
         
     }  
@@ -241,7 +199,7 @@ void Twitterak::userOptions (const string& userName)
 bool Twitterak::deleteAccount(const string& userName) 
 {
     string command ;
-    cout << "are you sure ?(type yes) :" ;
+    cout << "Are you sure ?(type yes) :" ; // what about no?
     cin >> command ;
 
     lowerStr(command) ;
