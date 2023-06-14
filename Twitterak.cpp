@@ -16,6 +16,11 @@
 using namespace std ;
 
 //nonMember fuctions *************************
+void typenigga()
+{
+    cout << "nigga\n";
+}
+
 vector <string> wordSeparator(string command)
 {
     vector <string> words;
