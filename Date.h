@@ -8,8 +8,8 @@ class Date
     public:
         void setDate(std :: string);
 
-        int getAge ();
-        auto getTweetDate();
+        int  getAge ();
+        std :: string getTweetDate();
 
 
     private:

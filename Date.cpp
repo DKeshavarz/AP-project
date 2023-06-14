@@ -1,6 +1,5 @@
 #include <iostream>
-#include <ctime> // used to work with date and time
-#include <chrono>
+#include <ctime> 
 
 #include "Date.h"
 
@@ -11,14 +10,17 @@ void Date :: setDate(string date)
     this -> date = date;
 }
 
-int  Date ::getAge()
+int   Date :: getAge()
 {
     userAge = 2023 - stoi(date.substr(0,4));
     return userAge; 
 }
 
-auto getTweetDate()
+string Date :: getTweetDate()
 {
-    auto givemetime = chrono::system_clock::to_time_t(chrono::system_clock::now());
-    return &givemetime;
+    time_t now = time(0);
+    char * dt  = ctime(&now);
+     
+    return dt;
+
 }

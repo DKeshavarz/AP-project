@@ -5,8 +5,11 @@
 #ifndef TWEET_H
 #define TWEET_H
 
+class User ;
+
 class Tweet
 {
+    friend class User;
     public :
 
         Tweet();
@@ -15,13 +18,14 @@ class Tweet
         void setTweetStr (std::string);
 
         std::string getTweetStr ()const;
+        std::unordered_set<std::string> getLikeSet ()const{return likeSet;} 
 
     private :
         std::string tweetStr ;
         std::unordered_set<std::string> likeSet ; 
         std::vector<Tweet *>mentions ;
 
-        int likes {} ;
+        int tweetLikes {} ;
 };
 
 #endif
