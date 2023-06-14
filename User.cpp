@@ -4,9 +4,11 @@
 #include <iostream>
 #include <unordered_map>
 
+
 #include "Twitterak.h" 
 #include "User.h" 
 #include "Tweet.h"
+#include "Date.h"
 
 using namespace std ;
 
@@ -97,7 +99,7 @@ string User::getTweet (size_t start , size_t end)
     for(size_t i = start ; i < end ; ++i)
     {
         if(tweetOfUser.count(i))
-            outPut << i << ')' << tweetOfUser[i].getTweetStr() << '\n' ;
+            outPut << i << ')' << tweetOfUser[i].getTweetStr() <<'\t'<<"Likes: "<<tweetOfUser[i].tweetLikes<<'\n' ;
     }
 
     if(outPut.str().empty())
@@ -123,14 +125,29 @@ void User::editTweet  (string tweetNumStr)
     tweetOfUser[tweetNum].setTweetStr(newTweetStr) ;
 }
 
+void User :: increaseLike (string userName ,int tweetNum)
+{
+    if(tweetOfUser[tweetNum].getLikeSet().find(userName) == tweetOfUser[tweetNum].likeSet.end()) //not find
+    {
+        tweetOfUser[tweetNum].tweetLikes++ ;
+        tweetOfUser[tweetNum].likeSet.insert(userName) ;
+    }
+    else
+    {
+        throw  invalid_argument("!You have already liked this") ;
+    }
+}
 string User::print()const
 {
     ostringstream outPut ;
+    Date D;
+
     outPut << "\nfirst name: "<< firsName 
            << "\nuser name: " << userName
            << "\npassword: "  << password 
            << "\nbiograghy: " << biogarghy
-           << "\ncountry: "   << country ;
+           << "\ncountry: "   << country; 
+           //<< "\nage: "       << D.getAge(); //error!
 
     return outPut.str() ;
 }
