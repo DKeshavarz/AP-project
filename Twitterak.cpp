@@ -1,8 +1,14 @@
+// tuple
+// "\n\n" and '\n\n'
+// software architect 
+//progit
+
 #include <stdlib.h>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <cctype>
+#include <vector>
 
 #include "Twitterak.h" 
 #include "User.h"
@@ -10,6 +16,37 @@
 using namespace std ;
 
 //nonMember fuctions *************************
+vector <string> wordSeparator(string command)
+{
+    vector <string> words;
+    string tempCommand;
+
+    for (size_t i = 0 ; i < command.size() ; ++i)
+    {
+        if (command[i] != ' ' && command[i] != ':') //confutoin
+        {
+            tempCommand  += command[i]; 
+        }
+
+        else if (tempCommand != "")
+        {
+            words.push_back(tempCommand);
+            tempCommand = "" ;
+        }
+    }
+
+    if ( command[command.size() - 1] != ' ')
+    {
+        words.push_back(tempCommand);
+    }
+
+    // cout << "in..\n" ;
+    // for(auto i : words)
+    //     cout << i << ".." ;
+    // cout << "out..\n" ;
+    
+    return words;
+}
 void lowerStr(string &str)
 {
     for(char& i : str)
@@ -46,37 +83,54 @@ void Twitterak::showMenu()
         getline(cin,caseOfMenu);
         lowerStr(caseOfMenu) ;
 
-        if     (caseOfMenu.substr(0,6) == "login") //still need work 
-            logIn() ;
-        else if(caseOfMenu == "signup")
-            signUp();
+        vector <string> words = wordSeparator(caseOfMenu);
+        if     (words[0] == "login") //still need work 
+            logIn (words) ;
+
+        else if(words[0] == "signup")
+            signUp(words) ;
+
         else if(caseOfMenu == "help")
             cout << help() ;
+
         else if(caseOfMenu == "")
         {}
+
         else if(caseOfMenu == "exit" || caseOfMenu == "q" || caseOfMenu == "quit")
             isGoing = 0 ;
+
         else
-            cout << "!Wrong commant! try again!\n" ;  //can be done with execption
+            cout << "!Wrong commant! try again....!\n" ;  //can be done with execption
 
     }
 }
-void Twitterak::logIn(string tempUserName , string tempPassword)
+void Twitterak::logIn(vector<string>words)
 {
+    string tempUserName{} , tempPassword{};
+
     system("clear") ; 
 
-    if(tempUserName.empty())
+    if(words.size() > 1)
+    {
+        tempUserName= words[1];
+    }
+
+    else
     {
         cout << "$Username :";
         cin >> tempUserName ;
     }
-    if(tempPassword.empty())
+    if(words.size() > 2)
     {
-        cout << "$Password : ";
-        cin >> tempPassword ; 
+        tempPassword = words[2];
     }
-
-    if(usersMap.count(tempUserName))
+    else
+    {
+        cout << "$Password :";
+        cin >> tempPassword ;
+    }
+    
+    if(usersMap.count(tempUserName)) // logic error in last try
     {
         int wrongTrys {2} ;
         for( ;usersMap[tempUserName].getPassword() != tempPassword && wrongTrys > 0 ; wrongTrys--)//is it correct?
@@ -96,27 +150,40 @@ void Twitterak::logIn(string tempUserName , string tempPassword)
         cout << "!User not found!\n" ;
     }   
 }
-void Twitterak::signUp () 
+void Twitterak::signUp (vector<string>words) 
 {
-    system("clear") ;
+    //system("clear") ;
     string tempName , tempUserName , tempPassword ; 
+    if(words.size() == 2)
+    {
+        tempUserName = words[1] ;
+    }
+    else if (words.size() == 1)
+    {
+        cout << "$Username :" ;cin >> tempUserName ; //carefull about @m1234
+    }
+    else 
+    {
+        cout << "!Invalid input \n" ;
+        return ;
+    }
 
-    cout << "$Name : "    ;cin >> tempName ;
-    cout << "$Username :" ;cin >> tempUserName ; //carefull about @m1234
-    cout << "$Password : ";cin >> tempPassword ; 
- 
     if(usersMap.count(tempUserName))
     {
         cout << "!Duplicate user name\n" ; 
     }
     else
     {
+        cout << "$Name : "    ;cin >> tempName ;
+        cout << "$Password : ";cin >> tempPassword ;
+
         try
         {
             User temp(tempName,tempUserName,tempPassword) ;
             usersMap[tempUserName] = temp;
             cout << "*Registration successful\n" ;
-            logIn(tempUserName,tempPassword) ;
+            vector <string> words {tempName,tempUserName,tempPassword};
+            logIn(words) ;
         }
         catch (invalid_argument &err)
         {
@@ -144,51 +211,82 @@ void Twitterak::userOptions (const string& userName)
     
     while(command != "logout")
     {
+
         cout << userName << '>' ;
 
         getline(cin , command) ;
         lowerStr(command) ;
 
-        if(command.substr(0,7) == "profile" || command == "me")
+        vector <string> words = wordSeparator(command);
+
+        if(words[0]== "profile" || words[0] == "me")
         {   
             if(command.size() > 7)
+            {
                 cout << usersMap[bringImportant(command , 8)].print() << '\n';
+            }
             else
-                cout << usersMap[userName].print() << '\n' ;  
+            {
+                cout << usersMap[userName].print() << '\n' ;
+            }  
         }
+
         else if(command == "delete account")
         {
             if(deleteAccount(userName))
                 command = "logout";
         }
-        else if(command.substr(0,6) == "tweet ")
+
+        else if(words[0] == "tweet")
         {
             usersMap[userName].addTweet( bringImportant(command,6) ) ;
         }
+
         else if(usersMap.count(bringImportant(command,0)))
         {
             cout << usersMap[bringImportant(command,0)].getTweet() << '\n' ;
         }
+
         else if(command.substr(0,13) == "delete tweet ")
         {
             usersMap[userName].deleteTweet(bringImportant(command,13)) ;
         }
+
         else if(command.substr(0,11) == "edit tweet ")
         {
             usersMap[userName].editTweet(bringImportant(command,11)) ;
         }
-        else if(command.substr(0,5) == "like ")
+
+        else if(words[0] == "like")
         {
-            //if( usersMap.count( command.substr(,4) ) )
+            if(words.size() == 3 && usersMap.count(words[1]))
+            {
+                try
+                {
+
+                    usersMap[words[1]].increaseLike(userName,stoi(words[2])) ;
+                }
+                catch (invalid_argument &err)
+                {
+                    cout << err.what() << '\n';
+                }
+            }
+            else
+            {
+                cout << "!Invalid input after like \n" ;
+            }
         }
-        else if(command == "logout")
+
+        else if(words[0] == "logout")
         {
             //empty
         }
+
         else if(command == "") 
         {
             //empty
         }
+
         else
         {
             cout << "!invalid command \n" ;

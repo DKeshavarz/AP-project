@@ -30,8 +30,10 @@ class User
         std::string getCountry  ()const;
         std::string getTweet (size_t = 1,size_t = 0);
 
-        void deleteTweet(std::string) ;
-        void editTweet  (std::string) ;
+        void deleteTweet (std::string) ;
+        void editTweet   (std::string) ;
+        void increaseLike(std::string,int );
+
 
         std::string print ()const ;
         
@@ -45,7 +47,7 @@ class User
 
         //phone number ;
         //date birthday ;
-        
+        std :: string birthDate;
         std::map<size_t,Tweet> tweetOfUser ;
         size_t tweetNumber {1};
 
