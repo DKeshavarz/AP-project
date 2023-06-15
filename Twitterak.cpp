@@ -9,18 +9,15 @@
 #include <sstream>
 #include <cctype>
 #include <vector>
+#include <unistd.h>
 
 #include "Twitterak.h" 
 #include "User.h"
 
 using namespace std ;
 
+int n = 1 ; // for sleep time
 //nonMember fuctions *************************
-void typenigga()
-{
-    cout << "nigga\n";
-}
-
 vector <string> wordSeparator(string command)
 {
     vector <string> words;
@@ -63,7 +60,7 @@ string bringImportant(const string& command, size_t start ) //sugest to pass arg
 
     for(size_t i = start ; i < command.size() ; ++i)
     {
-        if(command[i] != '"' && command[i] != '@')
+        if(command[i] != '"') //  && command[i] != '@'
             important += command[i] ;
     }
 
@@ -73,7 +70,7 @@ string bringImportant(const string& command, size_t start ) //sugest to pass arg
 //member functions    *************************
 void Twitterak::run()
 {
-    cout << "Wellcom to twitterak \nMade by group of LOSERS!\nUse help command if you are new!\n" ;
+    cout << "Welcome to twitterak \nMade by group of LOSERS!\nUse help command if you are new!\n" ;
     showMenu() ; 
 } 
 void Twitterak::showMenu() 
@@ -105,7 +102,7 @@ void Twitterak::showMenu()
             isGoing = 0 ;
 
         else
-            cout << "!Wrong commant! try again....!\n" ;  //can be done with execption
+            cout << "! Wrong commant! try again....!\n" ;  //can be done with execption
 
     }
 }
@@ -122,8 +119,8 @@ void Twitterak::logIn(vector<string>words)
 
     else
     {
-        cout << "$Username :";
-        cin >> tempUserName ;
+        cout << "$ Username :";
+        cin  >> tempUserName ;
     }
     if(words.size() > 2)
     {
@@ -131,8 +128,7 @@ void Twitterak::logIn(vector<string>words)
     }
     else
     {
-        cout << "$Password :";
-        cin >> tempPassword ;
+        tempPassword = getpass("$ Password :") ; //this can only hide the password
     }
     
     if(usersMap.count(tempUserName)) // logic error in last try
@@ -140,24 +136,24 @@ void Twitterak::logIn(vector<string>words)
         int wrongTrys {2} ;
         for( ;usersMap[tempUserName].getPassword() != tempPassword && wrongTrys > 0 ; wrongTrys--)//is it correct?
         {
-            cout << "!Incorect password\n" << wrongTrys << "Try remain :";
-            cin >> tempPassword ;   
+            cout << "! Incorect password\n" << wrongTrys ;
+            tempPassword = getpass("Try remain :") ;
         }
         
         if(wrongTrys > 0 )
         {
-            cout << "Wellcom " << usersMap[tempUserName].getFirstName() << '\n' ;
+            cout << "* Welcome " << usersMap[tempUserName].getFirstName() << '\n' ;
             userOptions(tempUserName) ;
         }
     }
     else
     {
-        cout << "!User not found!\n" ;
+        cout << "! User not found!\n" ;
     }   
 }
 void Twitterak::signUp (vector<string>words) 
 {
-    //system("clear") ;
+    system("clear") ;
     string tempName , tempUserName , tempPassword ; 
     if(words.size() == 2)
     {
@@ -165,28 +161,30 @@ void Twitterak::signUp (vector<string>words)
     }
     else if (words.size() == 1)
     {
-        cout << "$Username :" ;cin >> tempUserName ; //carefull about @m1234
+        cout << "$ Username :" ;cin >> tempUserName ; //carefull about @m1234
     }
     else 
     {
-        cout << "!Invalid input \n" ;
+        cout << "! Invalid input \n" ;
         return ;
     }
 
     if(usersMap.count(tempUserName))
     {
-        cout << "!Duplicate user name\n" ; 
+        cout << "! Duplicate user name\n" ; 
     }
     else
     {
-        cout << "$Name : "    ;cin >> tempName ;
-        cout << "$Password : ";cin >> tempPassword ;
+        tempPassword = getpass("$ Password :")  ; //this can only hide the password
+        cout << "$ Name : "    ;cin >> tempName ;
 
         try
         {
             User temp(tempName,tempUserName,tempPassword) ;
             usersMap[tempUserName] = temp;
-            cout << "*Registration successful\n" ;
+            cout << "* Registration successful\n" ;
+            sleep(n);
+            
             vector <string> words {tempName,tempUserName,tempPassword};
             logIn(words) ;
         }
@@ -216,15 +214,21 @@ void Twitterak::userOptions (const string& userName)
     
     while(command != "logout")
     {
-
-        cout << userName << '>' ;
+        if (userName[0] == '@')
+        {
+            cout <<'>'<< userName <<'>' ;
+        }
+        else 
+        {
+            cout <<'>'<<'@'<<userName <<'>' ;
+        }
 
         getline(cin , command) ;
         lowerStr(command) ;
 
         vector <string> words = wordSeparator(command);
 
-        if(words[0]== "profile" || words[0] == "me")
+        if(words[0]== "profile" || words[0] == "me" || words[0] == "@me")
         {   
             if(command.size() > 7)
             {
@@ -278,13 +282,20 @@ void Twitterak::userOptions (const string& userName)
             }
             else
             {
-                cout << "!Invalid input after like \n" ;
+                cout << "! Invalid input after like \n" ;
             }
         }
 
         else if(words[0] == "logout")
         {
-            //empty
+            system("clear");
+            cout << "* Logout succesfully"; // we most push enter to that line get the other line!
+        }
+        else if (words[0] == "exit" || // i add this to user can exit without logging out.
+                 words[0] == "quit" || 
+                 words[0] == "q")
+        {
+            exit(0);
         }
 
         else if(command == "") 
@@ -294,7 +305,7 @@ void Twitterak::userOptions (const string& userName)
 
         else
         {
-            cout << "!invalid command \n" ;
+            cout << "! invalid command \n" ;
         }
         
     }  
@@ -302,7 +313,7 @@ void Twitterak::userOptions (const string& userName)
 bool Twitterak::deleteAccount(const string& userName) 
 {
     string command ;
-    cout << "Are you sure ?(type yes) :" ; // what about no?
+    cout << "? Are you sure ?(type yes) :" ;
     cin >> command ;
 
     lowerStr(command) ;
@@ -314,4 +325,3 @@ bool Twitterak::deleteAccount(const string& userName)
 
     return 0 ;
 }
-
