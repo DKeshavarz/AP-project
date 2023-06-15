@@ -1,4 +1,4 @@
-@in adding usere name
+@in adding usere name DONE
 improve interface in >@username>
 getting password with **
 
