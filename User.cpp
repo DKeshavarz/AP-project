@@ -115,7 +115,7 @@ string User::getTweet (size_t start , size_t end)
     for(size_t i = start ; i < end ; ++i)
     {
         if(tweetOfUser.count(i))
-            outPut << i << ')' << tweetOfUser[i].getTweetStr() <<"\t\t\t"<<"Likes: "<<tweetOfUser[i].tweetLikes << '\n' ;
+            outPut << i << ") " << tweetOfUser[i].getTweetStr() <<"\t\t\t\t"<<"Likes: "<<tweetOfUser[i].tweetLikes << '\n' ;
     }
 
     if(outPut.str().empty())
