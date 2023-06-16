@@ -4,7 +4,6 @@
 #include <iostream>
 #include <unordered_map>
 
-
 #include "Twitterak.h" 
 #include "User.h" 
 #include "Tweet.h"
@@ -48,6 +47,10 @@ void User::setUserName   (string Uname)
     
     userName = Uname ;  
 }
+void User::setLink (string inputLink) 
+{
+    link = "https://" + inputLink + ".dali" ;
+}
 void User::setPassword  (string pas) 
 {
     //rate password
@@ -62,8 +65,11 @@ void User::setBiogarghy (string bio)
 }
 void User::setCountry (string country)
 {
-    lowerStr(country) ;
-    unordered_map<string,string> countryMap;
+    this-> country = country ;
+}
+void User::setPhoneNum  (string phone) //dose it need validation?
+{
+    phoneNumber = phone ;
 }
 void User::addTweet (string inputTweetStr) 
 {
@@ -79,6 +85,10 @@ string User::getUserName()const
 {
     return userName ;
 }
+string User::getLink()const
+{
+    return link ;
+}
 string User::getPassword()const
 {
     return password ;
@@ -90,6 +100,10 @@ string User::getBiogarghy()const
 string User::getCountry ()const
 {
     return country;
+}
+string User::getPhoneNum ()const
+{
+    return phoneNumber ;
 }
 string User::getTweet (size_t start , size_t end)
 {
