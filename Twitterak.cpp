@@ -86,6 +86,7 @@ void Twitterak::showMenu()
         lowerStr(caseOfMenu) ;
 
         vector <string> words = wordSeparator(caseOfMenu);
+
         if     (words[0] == "login") //still need work 
             logIn (words) ;
 
@@ -205,7 +206,7 @@ string Twitterak::help() const
            << "signup : If you don't have acount account use this opstion to creat on.\n"
            << "exit   : Close the program.\n" ;
 
-    return outPut.str() ; // I dont understand why use .str()?
+    return outPut.str() ;
 }
 void Twitterak::userOptions (const string& userName) 
 {
@@ -253,7 +254,13 @@ void Twitterak::userOptions (const string& userName)
 
         else if(usersMap.count(bringImportant(command,0)))
         {
-            cout << usersMap[bringImportant(command,0)].getTweet() << '\n' ;
+            cout <<'\n' ;
+            cout << usersMap[bringImportant(command,0)].getTweet() <<'\n' ;
+        }
+        else if (usersMap.count(words[0]) && stoi(words[1])) //need some work
+        {
+                cout <<'\n' ;
+                cout << usersMap[words[0]].tweetOfUser[stoi(words[1])].getTweetStr() <<'\n';
         }
 
         else if(command.substr(0,13) == "delete tweet ")
@@ -272,7 +279,6 @@ void Twitterak::userOptions (const string& userName)
             {
                 try
                 {
-
                     usersMap[words[1]].increaseLike(userName,stoi(words[2])) ;
                 }
                 catch (invalid_argument &err)
