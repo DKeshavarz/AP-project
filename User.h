@@ -42,7 +42,7 @@ class User
         void increaseLike(std::string,int );
 
 
-        std::string print ()const ;
+        std::string print (bool = 0)const ;
         
     private :
         std::string firsName ;

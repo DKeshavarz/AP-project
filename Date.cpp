@@ -8,6 +8,7 @@ using namespace std;
 void Date :: setDate(string date)
 {
     this -> date = date;
+
 }
 
 int   Date :: getAge()

@@ -47,7 +47,8 @@ void User::setUserName   (string Uname)
     if(reservedWord.find(Uname) != string::npos)
         throw invalid_argument ("! Username is a command!!") ;
     
-    userName = Uname ;  
+    userName = Uname ;
+    setLink(Uname) ;  
 }
 void User::setLink (string inputLink) 
 {
@@ -153,17 +154,19 @@ void User :: increaseLike (string userName ,int tweetNum)
         throw  invalid_argument("!You have already liked this") ;
     }
 }
-string User::print()const
+string User::print(bool showPrivate)const
 {
     ostringstream outPut ;
-    Date D;
 
+    if(showPrivate)
+    {
+        outPut << "\nPassword: "  << password ;
+    }
     outPut << "\nName: "      << firsName 
            << "\nUsername: "  << userName
-           << "\nPassword: "  << password 
+           << "\nLink:"       << link
            << "\nBiograghy: " << biogarghy
            << "\nCountry: "   << country <<'\n'; 
            //<< "\nage: "       << D.getAge(); //error!
-
     return outPut.str() ;
 }
