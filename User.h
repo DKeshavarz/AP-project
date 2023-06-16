@@ -8,9 +8,12 @@
 #define USER_H
 void lowerStr(std::string &) ;
 
+class Twitterak;
+
 class User
 {
     //friend void lowerStr(string &) ;
+    friend class Twitterak;
 
     public :
         User();
