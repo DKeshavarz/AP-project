@@ -41,6 +41,7 @@ class User
         void editTweet   (std::string) ;
         void increaseLike(std::string,int );
 
+        std::string changeProfile(const std::vector<std::string>&);
 
         std::string print (bool = 0)const ;
         
