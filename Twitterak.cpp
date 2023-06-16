@@ -16,11 +16,6 @@
 using namespace std ;
 
 //nonMember fuctions *************************
-void typenigga()
-{
-    cout << "nigga\n";
-}
-
 vector <string> wordSeparator(string command)
 {
     vector <string> words;
@@ -40,9 +35,13 @@ vector <string> wordSeparator(string command)
         }
     }
 
-    if ( command[command.size() - 1] != ' ')
+    if (tempCommand.size() > 0 && command[command.size() - 1] != ' ')
     {
         words.push_back(tempCommand);
+    }
+    else
+    {
+        words.push_back(" ") ;
     }
 
     // cout << "in..\n" ;
@@ -74,10 +73,7 @@ string bringImportant(const string& command, size_t start ) //sugest to pass arg
 void Twitterak::run()
 {
     cout << "Wellcom to twitterak \nMade by group of LOSERS!\nUse help command if you are new!\n" ;
-    showMenu() ; 
-} 
-void Twitterak::showMenu() 
-{
+
     bool isGoing = 1 ;
     string caseOfMenu {""} ;
     while(isGoing)
@@ -119,12 +115,12 @@ void Twitterak::logIn(vector<string>words)
     {
         tempUserName= words[1];
     }
-
     else
     {
         cout << "$Username :";
         cin >> tempUserName ;
     }
+    
     if(words.size() > 2)
     {
         tempPassword = words[2];
@@ -135,6 +131,8 @@ void Twitterak::logIn(vector<string>words)
         cin >> tempPassword ;
     }
     
+    tempUserName = bringImportant(tempUserName,0) ;
+
     if(usersMap.count(tempUserName)) // logic error in last try
     {
         int wrongTrys {2} ;
@@ -173,6 +171,8 @@ void Twitterak::signUp (vector<string>words)
         return ;
     }
 
+    tempUserName = bringImportant(tempUserName,0) ;
+
     if(usersMap.count(tempUserName))
     {
         cout << "!Duplicate user name\n" ; 
@@ -195,7 +195,7 @@ void Twitterak::signUp (vector<string>words)
             cout << err.what() << "\n" ;
         }
     }
-    cin.ignore() ;
+    //cin.ignore() ;
 }
 
 string Twitterak::help() const
@@ -217,11 +217,11 @@ void Twitterak::userOptions (const string& userName)
     while(command != "logout")
     {
 
-        cout << userName << '>' ;
+        cout << ">@" << userName << '>' ;
 
         getline(cin , command) ;
         lowerStr(command) ;
-
+        
         vector <string> words = wordSeparator(command);
 
         if(words[0]== "profile" || words[0] == "me")
@@ -264,6 +264,7 @@ void Twitterak::userOptions (const string& userName)
 
         else if(words[0] == "like")
         {
+            words[1] = bringImportant(words[1],0) ;
             if(words.size() == 3 && usersMap.count(words[1]))
             {
                 try
