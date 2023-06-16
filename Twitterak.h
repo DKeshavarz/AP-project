@@ -9,7 +9,6 @@
 class Twitterak
 {
     public :
-
         void run() ;
     
     private :
@@ -17,7 +16,7 @@ class Twitterak
 
         void logIn (std::vector<std::string>) ;
         void signUp(std::vector<std::string>) ;
-        void showMenu();
+
         std::string help() const ;
 
         void userOptions  (const std::string&) ;
