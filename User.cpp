@@ -25,10 +25,12 @@ void  User::setFirsrName (string fName )
 }
 void User::setUserName   (string Uname) 
 {   
+    
     if(Uname.size() < 5)
-        throw invalid_argument("!user name is to short") ;
+        throw invalid_argument("! Username is to short") ;
     else if('0' <= Uname[0] && Uname[0] <= '9')
-        throw invalid_argument("!user name shouldn't start with numbers") ;
+        throw invalid_argument("! Username shouldn't start with numbers") ;
+
 
     for(size_t i = 1 ; i < Uname.size() ; ++i)
     {
@@ -36,14 +38,14 @@ void User::setUserName   (string Uname)
             !('a' <= Uname[i] && Uname[i] <= 'z') &&
             !('A' <= Uname[i] && Uname[i] <= 'Z'))
         {
-            throw invalid_argument ("!user name contain invalic character") ;
+            throw invalid_argument ("! Username contain invalic character") ;
         }
     }
 
-    string reservedWord {"exit,help,login,edit,signup,logout"} ;//it may contion more...//i add some
+    string reservedWord {"exit,help,login,edit,signup,logout,profile"} ;//it may contion more...//i add some
 
     if(reservedWord.find(Uname) != string::npos)
-        throw invalid_argument ("!user name is a command!!") ;
+        throw invalid_argument ("! Username is a command!!") ;
     
     userName = Uname ;  
 }
@@ -61,7 +63,7 @@ void User::setBiogarghy (string bio)
     if(bio.size() < 160)
         biogarghy = bio ;
     else
-        throw invalid_argument("!len of biograghy is too long...") ;
+        throw invalid_argument("! Len of biograghy is too long...") ;
 }
 void User::setCountry (string country)
 {
@@ -113,11 +115,11 @@ string User::getTweet (size_t start , size_t end)
     for(size_t i = start ; i < end ; ++i)
     {
         if(tweetOfUser.count(i))
-            outPut << i << ')' << tweetOfUser[i].getTweetStr() <<'\t'<<"Likes: "<<tweetOfUser[i].tweetLikes<<'\n' ;
+            outPut << i << ')' << tweetOfUser[i].getTweetStr() <<"\t\t\t"<<"Likes: "<<tweetOfUser[i].tweetLikes << '\n' ;
     }
 
     if(outPut.str().empty())
-        outPut << "no tweet yet :) " ;
+        outPut << "! No tweet yet :) " ;
 
     return outPut.str();
 }
@@ -133,7 +135,7 @@ void User::editTweet  (string tweetNumStr)
     string newTweetStr {} ;
 
     cout << getTweet(tweetNum,tweetNum+1) << '\n' ;
-    cout << "enter new tweet :" << endl ;
+    cout << "Enter new tweet :" << endl ;
     getline(cin , newTweetStr) ;
 
     tweetOfUser[tweetNum].setTweetStr(newTweetStr) ;
@@ -156,11 +158,11 @@ string User::print()const
     ostringstream outPut ;
     Date D;
 
-    outPut << "\nfirst name: "<< firsName 
-           << "\nuser name: " << userName
-           << "\npassword: "  << password 
-           << "\nbiograghy: " << biogarghy
-           << "\ncountry: "   << country; 
+    outPut << "\nName: "      << firsName 
+           << "\nUsername: "  << userName
+           << "\nPassword: "  << password 
+           << "\nBiograghy: " << biogarghy
+           << "\nCountry: "   << country <<'\n'; 
            //<< "\nage: "       << D.getAge(); //error!
 
     return outPut.str() ;

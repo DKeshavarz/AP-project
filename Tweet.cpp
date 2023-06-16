@@ -10,13 +10,13 @@ Tweet::Tweet()
 Tweet::Tweet(string inputTweetStr )
 {
     Date D;
-    tweetStr = inputTweetStr +"\n\t"+D.getTweetDate();
+    tweetStr = inputTweetStr +"\n\n"+D.getTweetDate();
 }
 
 void Tweet::setTweetStr (string input)
 {
     Date D; 
-    tweetStr = input +"\n\t"+D.getTweetDate();
+    tweetStr = input +"\n\n"+D.getTweetDate();
 }
 
 string Tweet::getTweetStr ()const
