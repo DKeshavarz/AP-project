@@ -136,8 +136,8 @@ void Twitterak::logIn(vector<string>words)
         int wrongTrys {2} ;
         for( ;usersMap[tempUserName].getPassword() != tempPassword && wrongTrys > 0 ; wrongTrys--)//is it correct?
         {
-            cout << "! Incorect password\n" << wrongTrys ;
-            tempPassword = getpass("Try remain :") ;
+            cout << "! Incorect password\n" << wrongTrys << " Try remain :" ;
+            tempPassword = getpass("") ;
         }
         
         if(wrongTrys > 0 )
@@ -216,11 +216,11 @@ void Twitterak::userOptions (const string& userName)
     {
         if (userName[0] == '@')
         {
-            cout <<'>'<< userName <<'>' ;
+            cout <<"> "<< userName <<" >" ;
         }
         else 
         {
-            cout <<'>'<<'@'<<userName <<'>' ;
+            cout <<"> "<<'@'<<userName <<" >" ;
         }
 
         getline(cin , command) ;
