@@ -233,11 +233,11 @@ void Twitterak::userOptions (const string& userName)
         {   
             if(command.size() > 7)
             {
-                cout << usersMap[bringImportant(command , 8)].print() << '\n';
+                cout << usersMap[bringImportant(command , 8)].print(0) << '\n';
             }
             else
             {
-                cout << usersMap[userName].print() << '\n' ;
+                cout << usersMap[userName].print(1) << '\n' ;
             }  
         }
 
@@ -296,10 +296,10 @@ void Twitterak::userOptions (const string& userName)
         else if(words[0] == "logout")
         {
             system("clear");
-            cout << "* Logout succesfully"; // we most push enter to that line get the other line!
+            cout << "* Logout succesfully\n"; // we most push enter to that line get the other line! //update : bug fixed
         }
         else if (words[0] == "exit" || // i add this to user can exit without logging out.
-                 words[0] == "quit" || 
+                 words[0] == "quit" || // fuckig good idea
                  words[0] == "q")
         {
             exit(0);
