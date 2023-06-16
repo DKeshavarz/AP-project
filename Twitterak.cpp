@@ -241,6 +241,18 @@ void Twitterak::userOptions (const string& userName)
             }  
         }
 
+        else if (words.size() == 4 && words[0] + " " + words[1] == "edit profile")
+        {
+            try 
+            {
+                cout <<  usersMap[userName].changeProfile(words) << '\n' ;
+            }
+            catch(invalid_argument &err)
+            {
+                cout <<     err.what()       << '\n' ;
+            }
+        }
+
         else if(command == "delete account")
         {
             if(deleteAccount(userName))
