@@ -154,6 +154,25 @@ void User :: increaseLike (string userName ,int tweetNum)
         throw  invalid_argument("!You have already liked this") ;
     }
 }
+
+string User ::changeProfile(const vector<string>&words) //birth day or birthday ??
+{
+    ostringstream outPut ;
+
+    if      (words[2] == "name"       ) setFirsrName(words[3]) ; 
+    else if (words[2] == "password"   ) setPassword (words[3]) ;
+    else if (words[2] == "link"       ) ;//complet me **********************
+    else if (words[2] == "biography"  ) setBiogarghy(words[3]) ;
+    else if (words[2] == "country"    ) setCountry  (words[3]) ;
+    else if (words[2] == "phoneNumber") setPhoneNum (words[3]) ;
+    else if (words[2] == "birthDate"  ) ;//complet me **********************
+    else if (words[2] == "username"   ) ;//complet me **********************
+    else                              {outPut << "! This part dosen't exist"; return outPut.str();}
+
+    outPut << "* Your "<< words[2] << " has been successfully change" ;
+    return outPut.str();
+
+}
 string User::print(bool showPrivate)const
 {
     ostringstream outPut ;
