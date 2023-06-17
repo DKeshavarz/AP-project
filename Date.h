@@ -13,6 +13,7 @@ class Date
         void setDate(std :: string);
         void setAge ();
 
+        std :: string getAge ();
         std :: string getTweetDate();
 
     private:
