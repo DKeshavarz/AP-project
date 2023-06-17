@@ -74,6 +74,11 @@ void User::setPhoneNum  (string phone) //dose it need validation?
 {
     phoneNumber = phone ;
 }
+void User::setBirthDate(string inputString) 
+{
+    birthDate.setDate(inputString) ;
+}
+
 void User::addTweet (string inputTweetStr) 
 {
     Tweet inputTweet (inputTweetStr);
