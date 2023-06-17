@@ -27,6 +27,7 @@ class User
         void setCountry   (std::string) ; 
         void setPhoneNum  (std::string) ;//dose it need validation?
         void addTweet     (std::string) ;
+        void setBirthDate (std::string) ;
 
         std::string getFirstName()const;
         std::string getUserName ()const;
@@ -54,7 +55,8 @@ class User
         std::string biogarghy   ;
         std::string country     ;
         std::string phoneNumber ;
-        std::string birthDate   ;//no member fucntion
+
+        Date birthDate ;//no member fucntion
 
         std::map<size_t,Tweet> tweetOfUser ;
         size_t tweetNumber {1};

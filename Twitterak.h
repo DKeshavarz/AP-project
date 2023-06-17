@@ -1,4 +1,5 @@
 #include <unordered_map>
+#include <unordered_set>
 #include <string>
 
 #include "User.h"
@@ -13,6 +14,7 @@ class Twitterak
     
     private :
         std::unordered_map<std::string,User> usersMap ;
+        //std::unordered_map<std::string,std::unordered_set<std::string> > hashtagMap ; 
 
         void logIn (std::vector<std::string>) ;
         void signUp(std::vector<std::string>) ;
@@ -21,6 +23,7 @@ class Twitterak
 
         void userOptions  (const std::string&) ;
         bool deleteAccount(const std::string&) ;
+        //void addHashtag  ()  
 }; 
 
 #endif
