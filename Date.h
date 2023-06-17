@@ -3,20 +3,23 @@
 #ifndef DATE_H
 #define DATE_H
 
+
 class Date
 {
     public:
-        void setDate(std :: string);
+        Date ();
+        Date (std::string);
 
-        int  getAge ();
+        void setDate(std :: string);
+        void setAge ();
+
         std :: string getTweetDate();
 
-
     private:
-        std :: string date;
-        int userAge;
-
-
+        int year    ;
+        int month   ;
+        int day     ;
+        int userAge ;
 };
 
 
