@@ -11,6 +11,8 @@
 
 using namespace std ;
 
+Date D;
+
 User::User ()
 {}
 User::User (string firsName,string userName,string password) :tweetNumber{1}
@@ -170,7 +172,7 @@ string User ::changeProfile(const vector<string>&words) //birth day or birthday 
     else if (words[2] == "biography"  ) setBiogarghy(words[3]) ;
     else if (words[2] == "country"    ) setCountry  (words[3]) ;
     else if (words[2] == "phoneNumber") setPhoneNum (words[3]) ;
-    else if (words[2] == "birthDate"  ) ;//complet me **********************
+    else if (words[2] == "birthdate"  ) D.setDate   (words[3]) ;
     else if (words[2] == "username"   ) ;//complet me **********************
     else                              {outPut << "! This part dosen't exist"; return outPut.str();}
 
@@ -189,8 +191,8 @@ string User::print(bool showPrivate)const
     outPut << "\nName: "      << firsName 
            << "\nUsername: "  << userName
            << "\nLink:"       << link
-           << "\nBiograghy: " << biogarghy
-           << "\nCountry: "   << country <<'\n'; 
-           //<< "\nage: "       << D.getAge(); //error!
+           << "\nBiography: " << biogarghy
+           << "\nCountry: "   << country 
+           << "\nage: "       << D.getAge() <<'\n'; //error!
     return outPut.str() ;
 }
