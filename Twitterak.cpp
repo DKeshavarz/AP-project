@@ -3,6 +3,8 @@
 // software architect 
 //progit
 //add help in user option ...........
+//zibasazi notweet yet
+// fix @usernames in useroptions
 
 #include <stdlib.h>
 #include <string>
@@ -270,10 +272,9 @@ void Twitterak::userOptions (const string& userName)
             cout <<'\n' ;
             cout << usersMap[bringImportant(command,0)].getTweet() <<'\n' ;
         }
-        else if (usersMap.count(words[0]) && stoi(words[1])) //need some work
+        else if (words.size() > 1 && usersMap.count(bringImportant(words[0]))) //need some work
         {
-                cout <<'\n' ;
-                cout << usersMap[words[0]].tweetOfUser[stoi(words[1])].getTweetStr() <<'\n';
+                cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]) , stoi(words[1])+1) <<'\n';
         }
 
         else if(command.substr(0,13) == "delete tweet ")
@@ -284,6 +285,19 @@ void Twitterak::userOptions (const string& userName)
         else if(command.substr(0,11) == "edit tweet ")
         {
             usersMap[userName].editTweet(bringImportant(command,11)) ;
+        }
+
+        else if (words.size() > 2 && words[0] == "retweet") // check if user is alive!
+        {
+            usersMap[userName].retweet(usersMap[words[1]] , stoi(words[2]));
+        }
+        else if (words.size() > 2 && words[0] + " " + words[1] == "quote tweet") // check if user is alive!
+        {
+            for (size_t i = 5 ; i < words.size() ; ++i)
+            {
+                words[4] += words[i];
+            }
+            usersMap[userName].retweet(usersMap[words[2]] , stoi(words[3]) , words[4]);
         }
 
         else if(words[0] == "like")
