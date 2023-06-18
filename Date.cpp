@@ -1,5 +1,5 @@
 #include <iostream>
-#include <ctime> 
+#include <ctime>
 #include <stdexcept>
 #include <vector>
 
@@ -8,7 +8,7 @@
 using namespace std;
 vector <string> wordSeparator(string) ;
 
-Date::Date () 
+Date::Date ()
 {
     //empty
 }
@@ -39,7 +39,7 @@ void Date::setDate(string inputDate) //2023 02 17
 
 void  Date :: setAge()
 {
-    userAge = 2023 - year ; 
+    userAge = 2023 - year ;
 }
 int Date :: getAge() const
 {
@@ -50,7 +50,7 @@ string Date :: getTweetDate()
 {
     time_t now = time(0);
     char * dt  = ctime(&now);
-     
+
     return dt;
 
 }

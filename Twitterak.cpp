@@ -1,13 +1,13 @@
 // tuple
 // "\n\n" and '\n\n'
-// software architect 
+// software architect
 //progit
 //add help in user option ...........
 <<<<<<< HEAD
 =======
 //zibasazi notweet yet
 // fix @usernames in useroptions
->>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
+    >>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
 
 #include <stdlib.h>
 #include <string>
@@ -17,10 +17,10 @@
 #include <vector>
 #include <unistd.h>
 
-#include "Twitterak.h" 
+#include "Twitterak.h"
 #include "User.h"
 
-using namespace std ;
+    using namespace std ;
 
 const int n = 1 ; // for sleep time
 //nonMember fuctions *************************
@@ -33,7 +33,7 @@ vector <string> wordSeparator(string command)
     {
         if (command[i] != ' ' && command[i] != ':') //confutoin
         {
-            tempCommand  += command[i]; 
+            tempCommand  += command[i];
         }
 
         else if (tempCommand != "")
@@ -56,14 +56,14 @@ vector <string> wordSeparator(string command)
     // for(auto i : words)
     //     cout << i << ".." ;
     // cout << "out..\n" ;
-    
+
     return words;
 }
 void lowerStr(string &str)
 {
     for(char& i : str)
         i = tolower(i) ;
-} 
+}
 string bringImportant(const string& command, size_t start = 0 ) //sugest to pass argument for delete
 {
     string important {} ;
@@ -95,7 +95,7 @@ void Twitterak::run()
 
         vector <string> words = wordSeparator(caseOfMenu);
 
-        if     (words[0] == "login") //still need work 
+        if     (words[0] == "login") //still need work
             logIn (words) ;
 
         else if(words[0] == "signup")
@@ -117,9 +117,9 @@ void Twitterak::run()
 }
 void Twitterak::logIn(vector<string>words)
 {
-    string tempUserName{} , tempPassword{};
+    string tempUserName{}, tempPassword{};
 
-    system("clear") ; 
+    system("clear") ;
 
     if(words.size() > 1)
     {
@@ -130,7 +130,7 @@ void Twitterak::logIn(vector<string>words)
         cout << "$ Username :";
         cin  >> tempUserName ;
     }
-    
+
     if(words.size() > 2)
     {
         tempPassword = words[2];
@@ -139,18 +139,18 @@ void Twitterak::logIn(vector<string>words)
     {
         tempPassword = getpass("$ Password :") ; //this can only hide the password
     }
-    
+
     tempUserName = bringImportant(tempUserName,0) ;
 
     if(usersMap.count(tempUserName)) // logic error in last try
     {
         int wrongTrys {2} ;
-        for( ;usersMap[tempUserName].getPassword() != tempPassword && wrongTrys > 0 ; wrongTrys--)//is it correct?
+        for( ; usersMap[tempUserName].getPassword() != tempPassword && wrongTrys > 0 ; wrongTrys--) //is it correct?
         {
             cout << "! Incorect password\n" << wrongTrys << " Try remain :" ;
             tempPassword = getpass("") ;
         }
-        
+
         if(wrongTrys > 0 )
         {
             cout << "* Welcome " << usersMap[tempUserName].getFirstName() << '\n' ;
@@ -160,21 +160,22 @@ void Twitterak::logIn(vector<string>words)
     else
     {
         cout << "! User not found!\n" ;
-    }   
+    }
 }
-void Twitterak::signUp (vector<string>words) 
+void Twitterak::signUp (vector<string>words)
 {
     system("clear") ;
-    string tempName , tempUserName , tempPassword ; 
+    string tempName, tempUserName, tempPassword ;
     if(words.size() == 2)
     {
         tempUserName = words[1] ;
     }
     else if (words.size() == 1)
     {
-        cout << "$ Username :" ;cin >> tempUserName ; //carefull about @m1234
+        cout << "$ Username :" ;
+        cin >> tempUserName ; //carefull about @m1234
     }
-    else 
+    else
     {
         cout << "! Invalid input \n" ;
         return ;
@@ -184,12 +185,13 @@ void Twitterak::signUp (vector<string>words)
 
     if(usersMap.count(tempUserName))
     {
-        cout << "! Duplicate user name\n" ; 
+        cout << "! Duplicate user name\n" ;
     }
     else
     {
         tempPassword = getpass("$ Password :")  ; //this can only hide the password
-        cout << "$ Name : "    ;cin >> tempName ;
+        cout << "$ Name : "    ;
+        cin >> tempName ;
 
         try
         {
@@ -197,7 +199,7 @@ void Twitterak::signUp (vector<string>words)
             usersMap[tempUserName] = temp;
             cout << "* Registration successful\n" ;
             sleep(n);
-            
+
             vector <string> words {tempName,tempUserName,tempPassword};
             logIn(words) ;
         }
@@ -220,36 +222,36 @@ string Twitterak::help() const
 
     return outPut.str() ;
 }
-void Twitterak::userOptions (const string& userName) 
+void Twitterak::userOptions (const string& userName)
 {
     string command ;
     cin.ignore() ;
-    
+
     while(command != "logout")
     {
 
         cout << ">@" << userName << '>' ;
 
-        getline(cin , command) ;
+        getline(cin, command) ;
         lowerStr(command) ;
-        
+
         vector <string> words = wordSeparator(command);
 
         if(words[0]== "profile" || words[0] == "me" || words[0] == "@me")
-        {   
+        {
             if(command.size() > 7)
             {
-                cout << usersMap[bringImportant(command , 8)].print(0) << '\n';
+                cout << usersMap[bringImportant(command, 8)].print(0) << '\n';
             }
             else
             {
                 cout << usersMap[userName].print(1) << '\n' ;
-            }  
+            }
         }
 
         else if (words.size() >= 4 && words[0] + " " + words[1] == "edit profile")
         {
-            try 
+            try
             {
                 cout <<  usersMap[userName].changeProfile(words) << '\n' ;
             }
@@ -275,119 +277,119 @@ void Twitterak::userOptions (const string& userName)
             cout <<'\n' ;
             cout << usersMap[bringImportant(command,0)].getTweet() <<'\n' ;
         }
-<<<<<<< HEAD
+        <<<<<<< HEAD
         else if (usersMap.count(words[0]) && stoi(words[1])) //need some work
         {
-                cout <<'\n' ;
-                cout << usersMap[words[0]].tweetOfUser[stoi(words[1])].getTweetStr() <<'\n';
-=======
-        else if (words.size() > 1 && usersMap.count(bringImportant(words[0]))) //need some work
-        {
-                cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]) , stoi(words[1])+1) <<'\n';
->>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
-        }
-
-        else if(command.substr(0,13) == "delete tweet ")
-        {
-            usersMap[userName].deleteTweet(bringImportant(command,13)) ;
-        }
-
-        else if(command.substr(0,11) == "edit tweet ")
-        {
-            usersMap[userName].editTweet(bringImportant(command,11)) ;
-        }
-
-<<<<<<< HEAD
-        else if(words[0] == "like")
-        {
-            words[1] = bringImportant(words[1],0) ;
-            if(words.size() == 3 && usersMap.count(words[1]))
+            cout <<'\n' ;
+            cout << usersMap[words[0]].tweetOfUser[stoi(words[1])].getTweetStr() <<'\n';
+            =======
+                else if (words.size() > 1 && usersMap.count(bringImportant(words[0]))) //need some work
             {
-                try
+                cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]), stoi(words[1])+1) <<'\n';
+                >>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
+            }
+
+            else if(command.substr(0,13) == "delete tweet ")
+            {
+                usersMap[userName].deleteTweet(bringImportant(command,13)) ;
+            }
+
+            else if(command.substr(0,11) == "edit tweet ")
+            {
+                usersMap[userName].editTweet(bringImportant(command,11)) ;
+            }
+
+            <<<<<<< HEAD
+            else if(words[0] == "like")
+            {
+                words[1] = bringImportant(words[1],0) ;
+                if(words.size() == 3 && usersMap.count(words[1]))
                 {
-                    usersMap[words[1]].increaseLike(userName,stoi(words[2])) ;
+                    try
+                    {
+                        usersMap[words[1]].increaseLike(userName,stoi(words[2])) ;
+                    }
+                    catch (invalid_argument &err)
+                    {
+                        cout << err.what() << '\n';
+                    }
                 }
-                catch (invalid_argument &err)
+                else
                 {
-                    cout << err.what() << '\n';
+                    cout << "! Invalid input after like \n" ;
                 }
             }
+            =======
+                else if (words.size() > 2 && words[0] == "retweet") // check if user is alive!
+            {
+                usersMap[userName].retweet(usersMap[words[1]], stoi(words[2]));
+            }
+            else if (words.size() > 2 && words[0] + " " + words[1] == "quote tweet") // check if user is alive!
+            {
+                for (size_t i = 5 ; i < words.size() ; ++i)
+                {
+                    words[4] += words[i];
+                }
+                usersMap[userName].retweet(usersMap[words[2]], stoi(words[3]), words[4]);
+            }
+
+            else if(words[0] == "like")
+            {
+                words[1] = bringImportant(words[1],0) ;
+                if(words.size() == 3 && usersMap.count(words[1]))
+                {
+                    try
+                    {
+                        usersMap[words[1]].increaseLike(userName,stoi(words[2])) ;
+                    }
+                    catch (invalid_argument &err)
+                    {
+                        cout << err.what() << '\n';
+                    }
+                }
+                else
+                {
+                    cout << "! Invalid input after like \n" ;
+                }
+            }
+            >>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
+
+            else if(words[0] == "logout")
+            {
+                system("clear");
+                cout << "* Logout succesfully\n"; // we most push enter to that line get the other line! //update : bug fixed
+            }
+            else if (words[0] == "exit" || // i add this to user can exit without logging out.
+                     words[0] == "quit" || // fuckig good idea
+                     words[0] == "q")
+            {
+                exit(0);
+            }
+
+            else if(command == "")
+            {
+                //empty
+            }
+
             else
             {
-                cout << "! Invalid input after like \n" ;
+                cout << "! invalid command \n" ;
             }
-        }
-=======
-        else if (words.size() > 2 && words[0] == "retweet") // check if user is alive!
-        {
-            usersMap[userName].retweet(usersMap[words[1]] , stoi(words[2]));
-        }
-        else if (words.size() > 2 && words[0] + " " + words[1] == "quote tweet") // check if user is alive!
-        {
-            for (size_t i = 5 ; i < words.size() ; ++i)
-            {
-                words[4] += words[i];
-            }
-            usersMap[userName].retweet(usersMap[words[2]] , stoi(words[3]) , words[4]);
-        }
 
-        else if(words[0] == "like")
-        {
-            words[1] = bringImportant(words[1],0) ;
-            if(words.size() == 3 && usersMap.count(words[1]))
-            {
-                try
-                {
-                    usersMap[words[1]].increaseLike(userName,stoi(words[2])) ;
-                }
-                catch (invalid_argument &err)
-                {
-                    cout << err.what() << '\n';
-                }
-            }
-            else
-            {
-                cout << "! Invalid input after like \n" ;
-            }
         }
->>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
-
-        else if(words[0] == "logout")
-        {
-            system("clear");
-            cout << "* Logout succesfully\n"; // we most push enter to that line get the other line! //update : bug fixed
-        }
-        else if (words[0] == "exit" || // i add this to user can exit without logging out.
-                 words[0] == "quit" || // fuckig good idea
-                 words[0] == "q")
-        {
-            exit(0);
-        }
-
-        else if(command == "") 
-        {
-            //empty
-        }
-
-        else
-        {
-            cout << "! invalid command \n" ;
-        }
-        
-    }  
-}
-bool Twitterak::deleteAccount(const string& userName) 
-{
-    string command ;
-    cout << "? Are you sure ?(type yes) :" ;
-    cin >> command ;
-
-    lowerStr(command) ;
-    if(command == "yes")
-    {
-        usersMap.erase(userName) ;
-        return 1;
     }
+    bool Twitterak::deleteAccount(const string& userName)
+    {
+        string command ;
+        cout << "? Are you sure ?(type yes) :" ;
+        cin >> command ;
 
-    return 0 ;
-}
+        lowerStr(command) ;
+        if(command == "yes")
+        {
+            usersMap.erase(userName) ;
+            return 1;
+        }
+
+        return 0 ;
+    }

@@ -10,22 +10,24 @@ class User ;
 class Tweet
 {
     friend class User;
-    public :
+public :
 
-        Tweet();
-        Tweet(std::string);
+    Tweet();
+    Tweet(std::string);
 
-        void setTweetStr (std::string);
+    void setTweetStr (std::string);
 
-        std::string getTweetStr ()const;
-        std::unordered_set<std::string> getLikeSet ()const{return likeSet;} 
+    std::string getTweetStr ()const;
+    std::unordered_set<std::string> getLikeSet ()const {
+        return likeSet;
+    }
 
-    private :
-        std::string tweetStr ;
-        std::unordered_set<std::string> likeSet ; 
-        std::vector<Tweet *>mentions ;
+private :
+    std::string tweetStr ;
+    std::unordered_set<std::string> likeSet ;
+    std::vector<Tweet *>mentions ;
 
-        int tweetLikes {} ;
+    int tweetLikes {} ;
 };
 
 #endif

@@ -16,7 +16,7 @@ Tweet::Tweet(string inputTweetStr )
 
 void Tweet::setTweetStr (string input)
 {
-    Date D; 
+    Date D;
     tweetStr = input +"\n\n"+D.getTweetDate();
 }
 
