@@ -11,7 +11,8 @@
 
 using namespace std ;
 
-Date D;
+vector <string> wordSeparator(string ) ;
+string bringImportant(const string& , size_t)  ;
 
 User::User ()
 {}
@@ -137,8 +138,13 @@ void User::deleteTweet(string tweetNumStr)
     size_t tweetNum = stoi(tweetNumStr) ;
     tweetOfUser.erase(tweetNum) ;
 }
-void User::editTweet  (string tweetNumStr) 
+void User::editTweet  (string tweetNumStr)  // dose tweet exist ? fucntion has cout ?????? 
 {
+    if(birthDate.getAge() < 18)
+    {
+        cout << "! your under 18 years old\n";
+        return ;
+    }
     size_t tweetNum = stoi(tweetNumStr) ;
     string newTweetStr {} ;
 
@@ -162,17 +168,22 @@ void User :: increaseLike (string userName ,int tweetNum)
     }
 }
 
-string User ::changeProfile(const vector<string>&words) //birth day or birthday ??
+string User ::changeProfile(vector<string>&words) //birth day or birthday ??
 {
+    string input ;
+    for(int i = 3 ; i < words.size() ; ++i)
+        input += words[i] + ' ';
+
+    words[3] = bringImportant(input , 0) ;
     ostringstream outPut ;
 
-    if      (words[2] == "name"       ) setFirsrName(words[3]) ; 
-    else if (words[2] == "password"   ) setPassword (words[3]) ;
+    if      (words[2] == "name"       ) setFirsrName    (words[3]) ; 
+    else if (words[2] == "password"   ) setPassword     (words[3]) ;
     else if (words[2] == "link"       ) ;//complet me **********************
-    else if (words[2] == "biography"  ) setBiogarghy(words[3]) ;
-    else if (words[2] == "country"    ) setCountry  (words[3]) ;
-    else if (words[2] == "phoneNumber") setPhoneNum (words[3]) ;
-    else if (words[2] == "birthdate"  ) D.setDate   (words[3]) ;
+    else if (words[2] == "biography"  ) setBiogarghy    (words[3]) ;
+    else if (words[2] == "country"    ) setCountry      (words[3]) ;
+    else if (words[2] == "phonenumber") setPhoneNum     (words[3]) ;
+    else if (words[2] == "birthdate"  ) birthDate.setDate(words[3]) ;
     else if (words[2] == "username"   ) ;//complet me **********************
     else                              {outPut << "! This part dosen't exist"; return outPut.str();}
 
@@ -193,6 +204,6 @@ string User::print(bool showPrivate)const
            << "\nLink:"       << link
            << "\nBiography: " << biogarghy
            << "\nCountry: "   << country 
-           << "\nage: "       << D.getAge() <<'\n'; //error!
+           << "\nage: "       << birthDate.getAge() <<'\n'; //error!
     return outPut.str() ;
 }

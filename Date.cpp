@@ -20,7 +20,7 @@ void Date::setDate(string inputDate) //2023 02 17
 {
     vector <string> words = wordSeparator(inputDate) ;
 
-    if(words.size() == 3)
+    if(words.size() == 4)
     {
         year  = stoi(words[0]) ;
         month = stoi(words[1]) ;
@@ -41,10 +41,9 @@ void  Date :: setAge()
 {
     userAge = 2023 - year ; 
 }
-string Date :: getAge()
+int Date :: getAge() const
 {
-    string stri = to_string(userAge);
-    return stri;
+    return userAge ;
 }
 
 string Date :: getTweetDate()
