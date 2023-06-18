@@ -13,14 +13,14 @@ class Date
         void setDate(std :: string);
         void setAge ();
 
-        std :: string getAge ();
+        int getAge ()const;
         std :: string getTweetDate();
 
     private:
         int year    ;
         int month   ;
         int day     ;
-        int userAge ;
+        int userAge {};
 };
 
 
