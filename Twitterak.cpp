@@ -2,6 +2,7 @@
 // "\n\n" and '\n\n'
 // software architect 
 //progit
+//add help in user option ...........
 
 #include <stdlib.h>
 #include <string>
@@ -58,7 +59,7 @@ void lowerStr(string &str)
     for(char& i : str)
         i = tolower(i) ;
 } 
-string bringImportant(const string& command, size_t start ) //sugest to pass argument for delete
+string bringImportant(const string& command, size_t start = 0 ) //sugest to pass argument for delete
 {
     string important {} ;
 
@@ -241,7 +242,7 @@ void Twitterak::userOptions (const string& userName)
             }  
         }
 
-        else if (words.size() == 4 && words[0] + " " + words[1] == "edit profile")
+        else if (words.size() >= 4 && words[0] + " " + words[1] == "edit profile")
         {
             try 
             {
