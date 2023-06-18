@@ -3,11 +3,8 @@
 // software architect 
 //progit
 //add help in user option ...........
-<<<<<<< HEAD
-=======
 //zibasazi notweet yet
 // fix @usernames in useroptions
->>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
 
 #include <stdlib.h>
 #include <string>
@@ -220,6 +217,31 @@ string Twitterak::help() const
 
     return outPut.str() ;
 }
+
+string Twitterak::helpLogin()const
+{
+    system("clear");
+    ostringstream outPut ;
+    outPut 
+           << "profile or me : For see your account details.\n"
+           << "edit profile  : For edit your account details , like this -> edit profile birthdate 2000 12 12.\n"
+           << "delete account: If you want to delete your account(yes please do that!).\n"
+           << "tweet         : When you want to add a tweet , like this -> tweet Hey ya loser! welcome to LA!\n\n"
+
+           << "@me or your username   : If you want to see your tweets.\n"
+           << "another person username: If you want to see tweet of another users.\n"
+           << "username:a number      : If you want to see one of your tweets or another users tweets (number most be a number!).\n\n"
+
+           << "delete tweet number of that tweet: If you want to delet that tweet(yes please delete all your bullshit tweets).\n"
+           << "edit tweet number of that tweet  : If you want to edit that tweet!\n"
+           << "retweet username:number          : When you want retweet another user tweet!\n\n"
+
+           << "quote tweet username:number add tweet: Exactly like retweet, but you add a tweet after number.\n"
+           << "like username:number of tweet        : If you want to like that tweet(please do not do that, just dislike bullshit tweets).\n";
+    
+    return outPut.str() ;
+}
+
 void Twitterak::userOptions (const string& userName) 
 {
     string command ;
@@ -235,7 +257,8 @@ void Twitterak::userOptions (const string& userName)
         
         vector <string> words = wordSeparator(command);
 
-        if(words[0]== "profile" || words[0] == "me" || words[0] == "@me")
+
+        if(words[0]== "profile" || words[0] == "me")
         {   
             if(command.size() > 7)
             {
@@ -245,6 +268,11 @@ void Twitterak::userOptions (const string& userName)
             {
                 cout << usersMap[userName].print(1) << '\n' ;
             }  
+        }
+
+        else if (words[0] == "help")
+        {
+            cout << helpLogin();
         }
 
         else if (words.size() >= 4 && words[0] + " " + words[1] == "edit profile")
@@ -270,21 +298,20 @@ void Twitterak::userOptions (const string& userName)
             usersMap[userName].addTweet( bringImportant(command,6) ) ;
         }
 
-        else if(usersMap.count(bringImportant(command,0)))
+        else if(words[0] == "@me" || usersMap.count(bringImportant(command,0))) //e
         {
+            if (command == words[0])
+            {
+                cout <<'\n' ;
+                cout << usersMap[userName].getTweet() <<'\n' ;
+            }
+
             cout <<'\n' ;
             cout << usersMap[bringImportant(command,0)].getTweet() <<'\n' ;
         }
-<<<<<<< HEAD
-        else if (usersMap.count(words[0]) && stoi(words[1])) //need some work
-        {
-                cout <<'\n' ;
-                cout << usersMap[words[0]].tweetOfUser[stoi(words[1])].getTweetStr() <<'\n';
-=======
         else if (words.size() > 1 && usersMap.count(bringImportant(words[0]))) //need some work
         {
                 cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]) , stoi(words[1])+1) <<'\n';
->>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
         }
 
         else if(command.substr(0,13) == "delete tweet ")
@@ -297,27 +324,6 @@ void Twitterak::userOptions (const string& userName)
             usersMap[userName].editTweet(bringImportant(command,11)) ;
         }
 
-<<<<<<< HEAD
-        else if(words[0] == "like")
-        {
-            words[1] = bringImportant(words[1],0) ;
-            if(words.size() == 3 && usersMap.count(words[1]))
-            {
-                try
-                {
-                    usersMap[words[1]].increaseLike(userName,stoi(words[2])) ;
-                }
-                catch (invalid_argument &err)
-                {
-                    cout << err.what() << '\n';
-                }
-            }
-            else
-            {
-                cout << "! Invalid input after like \n" ;
-            }
-        }
-=======
         else if (words.size() > 2 && words[0] == "retweet") // check if user is alive!
         {
             usersMap[userName].retweet(usersMap[words[1]] , stoi(words[2]));
@@ -350,13 +356,13 @@ void Twitterak::userOptions (const string& userName)
                 cout << "! Invalid input after like \n" ;
             }
         }
->>>>>>> 8d376a5139e529c7442e7fe51cb6fde9ae9fe1aa
 
         else if(words[0] == "logout")
         {
             system("clear");
             cout << "* Logout succesfully\n"; // we most push enter to that line get the other line! //update : bug fixed
         }
+
         else if (words[0] == "exit" || // i add this to user can exit without logging out.
                  words[0] == "quit" || // fuckig good idea
                  words[0] == "q")

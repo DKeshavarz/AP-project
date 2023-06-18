@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <string>
 #include <map>
 #include <unordered_map>
@@ -42,6 +43,7 @@ class User
         void deleteTweet (std::string) ;
         void editTweet   (std::string) ;
         void increaseLike(std::string,int );
+        void retweet     (User,size_t,std::string = "");
 
         std::string changeProfile(std::vector<std::string>&);
 

@@ -20,6 +20,7 @@ class Twitterak
         void signUp(std::vector<std::string>) ;
 
         std::string help() const ;
+        std::string helpLogin()const;
 
         void userOptions  (const std::string&) ;
         bool deleteAccount(const std::string&) ;
