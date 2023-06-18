@@ -171,7 +171,7 @@ void User :: increaseLike (string userName ,int tweetNum)
 string User ::changeProfile(vector<string>&words) //birth day or birthday ??
 {
     string input ;
-    for(int i = 3 ; i < words.size() ; ++i)
+    for(size_t i = 3 ; i < words.size() ; ++i)
         input += words[i] + ' ';
 
     words[3] = bringImportant(input , 0) ;
@@ -190,6 +190,12 @@ string User ::changeProfile(vector<string>&words) //birth day or birthday ??
     outPut << "* Your "<< words[2] << " has been successfully change" ;
     return outPut.str();
 
+}
+
+void User ::retweet (User userInput , size_t tweetNumInput , string tweetAdd )
+{
+    string str = '@'+ userInput.getUserName()+": "+ userInput.getTweet(tweetNumInput , tweetNumInput+1) + '\n' + tweetAdd;
+    addTweet(str);
 }
 string User::print(bool showPrivate)const
 {
