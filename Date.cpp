@@ -16,21 +16,22 @@ Date::Date (string inputDate)
 {
     setDate(inputDate) ;
 }
-void Date::setDate(string inputDate) //17 02 2023
+void Date::setDate(string inputDate) //2023 02 17
 {
     vector <string> words = wordSeparator(inputDate) ;
+
     if(words.size() == 3)
     {
-        day   = stoi(words[0]) ;
+        year  = stoi(words[0]) ;
         month = stoi(words[1]) ;
-        year  = stoi(words[2]) ;
+        day   = stoi(words[2]) ;
 
         if(!(year <=2023 && 1 <= month && month <= 12 && 1 <= day && day <= 30 + (month > 6)))
-            throw invalid_argument("invlaid date") ;
+            throw invalid_argument("! Invlaid date") ;
 
     }
     else
-        throw invalid_argument ("invalid date prototype") ;
+        throw invalid_argument ("! Invalid date prototype") ;
 
     setAge() ;
 
@@ -39,6 +40,11 @@ void Date::setDate(string inputDate) //17 02 2023
 void  Date :: setAge()
 {
     userAge = 2023 - year ; 
+}
+string Date :: getAge()
+{
+    string stri = to_string(userAge);
+    return stri;
 }
 
 string Date :: getTweetDate()
