@@ -1,5 +1,6 @@
 #include <string>
 #include <map>
+#include <unordered_map>
 
 #include "Tweet.h"
 #include "Date.h"
