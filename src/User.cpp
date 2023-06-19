@@ -63,23 +63,59 @@ void User::setLink(string inputLink)
     }
 
 }
-void User::ratePassword(string pas)
+/*bool User::ratePassword(string pas) //error
 {
-    string reservedPass {"1234567890,abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+    int rate = 0;
 
-    for (size_t i = 0 ; i < pas.size() ; ++i)
+    for ( size_t i = 0 ; i < pas.size() ; ++i)
     {
-        if (pas[i] != string :: npos)
+        if     (pas[i] >= '!' && pas[i] <= '/')
         {
-            throw("! Your password is too weak");
+            rate ++;
+        }
+
+        else if (pas[i] >= '0' && pas[i] <= '9')
+        {
+            rate ++;
+        }
+
+        else if (pas[i] >=':' && pas[i] <= '@')
+        {
+            rate ++;
+        }
+
+        else if (pas[i] >='A' && pas[i] <= 'Z')
+        {
+            rate ++;
+        }
+
+        else if (pas[i] >= 'a' && pas[i] <= 'z')
+        {
+            rate ++;
+        }
+
+        if (i > 0 && i < pas.size())
+        {
+            if (pas[i] == pas[i-1])
+            {
+                rate --;
+            }
         }
     }
-}
-void User::setPassword(string pas)
+
+    if (rate < 8)
+        return 0;
+    else
+        return 1;
+}*/
+void User::setPassword(string pas) 
 {
-    // rate password
-    password = pas;
+    //if (ratePassword(pas)) //error
+        password = pas;
+    //else
+        //throw invalid_argument ("! Your password is too weak");
 }
+
 void User::setBiogarghy(string bio)
 {
     if (bio.size() < 160)
