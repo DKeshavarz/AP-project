@@ -25,7 +25,7 @@ const int n = 1 ; // for sleep time
 void Twitterak::run()
 {
 
-    cout << "Wellcom to twitterak \nMade by group of LOSERS!\nUse help command if you are new!\n";
+    cout << "Wellcom to twitterak \nMade by group of Losers ALL the times (LA)!\nUse help command if you are new!\n";
 
     bool isGoing = 1;
     string caseOfMenu { "" };
@@ -151,21 +151,20 @@ string Twitterak::helpLogin() const
     system("clear");
     ostringstream outPut;
     outPut
-        << "profile or me : For see your account details.\n"
-        << "edit profile  : For edit your account details , like this -> edit profile birthdate 2000 12 12.\n"
-        << "delete account: If you want to delete your account(yes please do that!).\n"
-        << "tweet         : When you want to add a tweet , like this -> tweet Hey ya loser! welcome to LA!\n\n"
-
-        << "@me or your username   : If you want to see your tweets.\n"
-        << "another person username: If you want to see tweet of another users.\n"
-        << "username:a number      : If you want to see one of your tweets or another users tweets (number most be a number!).\n\n"
-
-        << "delete tweet number of that tweet: If you want to delet that tweet(yes please delete all your bullshit tweets).\n"
-        << "edit tweet number of that tweet  : If you want to edit that tweet!\n"
-        << "retweet username:number          : When you want retweet another user tweet!\n\n"
-
+        << "profile or me                        : For see your account details.\n"
+        << "edit profile                         : For edit your account details , like this -> edit profile birthdate 2000 12 12.\n"
+        << "delete account                       : If you want to delete your account(yes please do that!).\n"
+        << "tweet                                : When you want to add a tweet , like this -> tweet Hey ya loser! welcome to LA!\n"
+        << "@me or your username                 : If you want to see your tweets.\n"
+        << "another person username              : If you want to see tweet of another users.\n"
+        << "username:a number                    : If you want to see one of your tweets or another users tweets (number most be a number!).\n\n"
+        << "delete tweet number of that tweet    : If you want to delet that tweet(yes please delete all your bullshit tweets).\n"
+        << "edit tweet number of that tweet      : If you want to edit that tweet!\n"
+        << "retweet username:number              : When you want retweet another user tweet!\n"
         << "quote tweet username:number add tweet: Exactly like retweet, but you add a tweet after number.\n"
-        << "like username:number of tweet        : If you want to like that tweet(please do not do that, just dislike bullshit tweets).\n";
+        << "like username:number of tweet        : If you want to like that tweet(please do not do that, just dislike bullshit tweets).\n"
+        << "logout                               : For logging out your account.\n"
+        << "exit or quit or q                    : For close the program.\n";
 
     return outPut.str();
 }
@@ -268,8 +267,8 @@ void Twitterak::userOptions(const string& userName)
         }
 
         else if (words[0] == "exit" || // i add this to user can exit without logging out.
-            words[0] == "quit" || // fuckig good idea
-            words[0] == "q") {
+                 words[0] == "quit" || // fuckig good idea
+                 words[0] == "q") {
             exit(0);
         }
 

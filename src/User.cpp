@@ -49,11 +49,18 @@ void User::setUserName(string Uname)
         throw invalid_argument("! Username is a command!!");
 
     userName = Uname;
-    setLink(Uname);
 }
 void User::setLink(string inputLink)
 {
-    link = "https://" + inputLink + ".dali";
+    if (inputLink.find("https://") == string :: npos)
+    {
+        link = "https://" + inputLink;
+    }
+    else
+    {
+        link = inputLink;
+    }
+
 }
 void User::setPassword(string pas)
 {
@@ -78,6 +85,17 @@ void User::setPhoneNum(string phone) // dose it need validation?
 void User::setBirthDate(string inputString)
 {
     birthDate.setDate(inputString);
+}
+
+void User::setHeaderColor(string inputColor)
+{
+    string reservedColors {"blue,green,red,yellow,black,white,orange,purple"};
+    if (reservedColors.find(inputColor) != string :: npos)
+    {
+        throw invalid_argument ("! Your color does not exist");
+    }
+    headerColor = inputColor;
+
 }
 
 void User::addTweet(string inputTweetStr)
@@ -109,6 +127,10 @@ string User::getBiogarghy() const
 string User::getCountry() const
 {
     return country;
+}
+string User::getHeaderColor() const
+{
+    return headerColor;
 }
 string User::getPhoneNum() const
 {
@@ -177,7 +199,7 @@ string User ::changeProfile(vector<string>& words) // birth day or birthday ??
     else if (words[2] == "password")
         setPassword(words[3]);
     else if (words[2] == "link")
-        ; // complet me **********************
+        setLink(words[3]);
     else if (words[2] == "biography")
         setBiogarghy(words[3]);
     else if (words[2] == "country")
@@ -188,6 +210,8 @@ string User ::changeProfile(vector<string>& words) // birth day or birthday ??
         birthDate.setDate(words[3]);
     else if (words[2] == "username")
         ; // complet me **********************
+    else if (words[2] == "headercolor")
+        setHeaderColor(words[3]);
     else {
         outPut << "! This part dosen't exist";
         return outPut.str();
@@ -206,12 +230,13 @@ string User::print(bool showPrivate) const
 {
     ostringstream outPut;
 
+    outPut << "\nHeadercolor: " << headerColor;
     if (showPrivate) {
-        outPut << "\nPassword: " << password;
+        outPut << "\n\nPassword: " << password;
     }
     outPut << "\nName: " << firsName
            << "\nUsername: " << userName
-           << "\nLink:" << link
+           << "\nLink: " << link
            << "\nBiography: " << biogarghy
            << "\nCountry: " << country
            << "\nage: " << birthDate.getAge() << '\n'; // error!

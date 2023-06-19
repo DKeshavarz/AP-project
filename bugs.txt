@@ -1,10 +1,8 @@
-@in adding usere name DONE
-improve interface in >@username> DONE
-getting password with ** DONE BUT NOT SO MUCH!
 
-help for login FOR ME
-add edit link  FOR ME
-add header color FOR ME
-dont lowstr or bringImportant in tweet FOR ME
 when we see one tweet that does not exist FOR YOU
 when we like a tweet that does not exist FOR YOU
+
+valedation phone number
+rate password
+hash password
+
