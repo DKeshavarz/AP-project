@@ -1,13 +1,13 @@
 
-#include <iostream>
 #include "Twitterak.h"
+#include <iostream>
 
-using namespace std ;
+using namespace std;
 
-int main ()
+int main()
 {
-    Twitterak app ;
-    app.run() ;
-    
-    return 0 ;
+    Twitterak app;
+    app.run();
+
+    return 0;
 }

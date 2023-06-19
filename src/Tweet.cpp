@@ -1,26 +1,28 @@
 #include <iostream>
 
-#include "Tweet.h"
 #include "Date.h"
 #include "Functions.h"
 
-using namespace std ;
+#include "Tweet.h"
+
+using namespace std;
 
 Tweet::Tweet()
-{}
-Tweet::Tweet(string inputTweetStr )
+{
+}
+Tweet::Tweet(string inputTweetStr)
 {
     Date D;
-    tweetStr = inputTweetStr +"\n\n"+D.getTweetDate();
+    tweetStr = inputTweetStr + "\n\n" + D.getTweetDate();
 }
 
-void Tweet::setTweetStr (string input)
+void Tweet::setTweetStr(string input)
 {
-    Date D; 
-    tweetStr = input +"\n\n"+D.getTweetDate();
+    Date D;
+    tweetStr = input + "\n\n" + D.getTweetDate();
 }
 
-string Tweet::getTweetStr ()const
+string Tweet::getTweetStr() const
 {
-    return tweetStr ;
+    return tweetStr;
 }
