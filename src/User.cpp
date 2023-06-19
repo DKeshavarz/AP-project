@@ -157,7 +157,7 @@ void User::checkTweetExist(size_t input)
 {
     if(input >= tweetNumber)
     {
-        throw out_of_range("! This tweet doesn't exict") ;
+        throw out_of_range("! This tweet doesn't exist") ;
     }
 }
 void User::deleteTweet(string tweetNumStr)
@@ -191,11 +191,25 @@ void User ::increaseLike(string userName, int tweetNum)
     {
         tweetOfUser[tweetNum].tweetLikes++;
         tweetOfUser[tweetNum].likeSet.insert(userName);
-    } else {
+    } 
+    else
+    {
         throw invalid_argument("!You have already liked this");
     }
 }
-
+void User::decreaseLike(string userName,size_t tweetNum)
+{
+    checkTweetExist(tweetNum) ;
+    if ( tweetOfUser[tweetNum].getLikeSet().find(userName) != tweetOfUser[tweetNum].likeSet.end()) // if find == true
+    {
+        tweetOfUser[tweetNum].tweetLikes--;
+        tweetOfUser[tweetNum].likeSet.erase(userName); 
+    } 
+    else
+    {
+        throw invalid_argument("!You have already disliked this");
+    }
+}
 string User ::changeProfile(vector<string>& words) // birth day or birthday ??
 {
     string input;
@@ -205,25 +219,17 @@ string User ::changeProfile(vector<string>& words) // birth day or birthday ??
     words[3] = bringImportant(input, 0);
     ostringstream outPut;
 
-    if (words[2] == "name")
-        setFirsrName(words[3]);
-    else if (words[2] == "password")
-        setPassword(words[3]);
-    else if (words[2] == "link")
-        setLink(words[3]);
-    else if (words[2] == "biography")
-        setBiogarghy(words[3]);
-    else if (words[2] == "country")
-        setCountry(words[3]);
-    else if (words[2] == "phonenumber")
-        setPhoneNum(words[3]);
-    else if (words[2] == "birthdate")
-        birthDate.setDate(words[3]);
-    else if (words[2] == "username")
-        ; // complet me **********************
-    else if (words[2] == "headercolor")
-        setHeaderColor(words[3]);
-    else {
+    if      (words[2] == "name"       )setFirsrName     (words[3]);
+    else if (words[2] == "password"   )setPassword      (words[3]);
+    else if (words[2] == "link"       )setLink          (words[3]);
+    else if (words[2] == "biography"  )setBiogarghy     (words[3]);
+    else if (words[2] == "country"    )setCountry       (words[3]);
+    else if (words[2] == "phonenumber")setPhoneNum      (words[3]);
+    else if (words[2] == "birthdate"  )birthDate.setDate(words[3]);
+    else if (words[2] == "username"   ); // complet me ***********;
+    else if (words[2] == "headercolor")setHeaderColor   (words[3]);
+    else 
+    {
         outPut << "! This part dosen't exist";
         return outPut.str();
     }

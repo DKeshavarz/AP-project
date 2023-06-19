@@ -1,15 +1,5 @@
-
-<<<<<<< HEAD
-when we see one tweet that does not exist FOR YOU
-when we like a tweet that does not exist FOR YOU
-
 valedation phone number
 rate password
 hash password
-=======
-help for login FOR ME
-add edit link  FOR ME
-add header color FOR ME
-dont lowstr or bringImportant in tweet FOR ME
->>>>>>> 55ad3a40416d0cef9b7c5da64dd9218493aca96e
+
 

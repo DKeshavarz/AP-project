@@ -18,17 +18,31 @@
 #include "User.h"
 #include "Functions.h"
 
-#define  n  1  // for sleep time
+#define  sleepTime  1  // for sleep time
 
 using namespace std;
 
+string Twitterak::defaultAdd() //add user format name , firsCharOf name + 1234,firsCharOf name
+{
+    ostringstream outPut;
+
+    User u1 ("mamad","m1234","m");
+    usersMap["m1234"] = u1;
+
+    User u2 ("ali"  ,"a1234","a");
+    usersMap["a1234"] = u2;
+
+    outPut << "default build : ali , mamad " ;
+    return outPut.str() ;
+}
 void Twitterak::run()
 {
+    cout << defaultAdd() << "\n\n" ;
 
     cout << "Wellcom to twitterak \nMade by group of Losers ALL the times (LA)!\nUse help command if you are new!\n";
 
     bool isGoing = 1;
-    string caseOfMenu { "" };
+    string caseOfMenu {""};
     while (isGoing) {
         caseOfMenu = "";
         cout << ">";
@@ -72,7 +86,9 @@ void Twitterak::logIn(vector<string> words)
 
     if (words.size() > 2) {
         tempPassword = words[2];
-    } else {
+    } 
+    else 
+    {
         tempPassword = getpass("$ Password :"); // this can only hide the password
     }
 
@@ -123,7 +139,7 @@ void Twitterak::signUp(vector<string> words)
             User temp(tempName, tempUserName, tempPassword);
             usersMap[tempUserName] = temp;
             cout << "* Registration successful\n";
-            sleep(n);
+            sleep(sleepTime);
 
             vector<string> words { tempName, tempUserName, tempPassword };
             logIn(words);
@@ -220,7 +236,7 @@ void Twitterak::userOptions(const string& userName)
 
             else if (words[0] == "@me" || usersMap.count(bringImportant(command, 0))) // @username
             {
-                if (command == words[0])
+                if ("@me" == words[0])
                 {
                     cout << '\n'<< usersMap[userName].getTweet() << '\n';
                 }
@@ -270,6 +286,18 @@ void Twitterak::userOptions(const string& userName)
                 }
             }
 
+            else if(words[0] == "dislike")//dislike @username:4 //check user name  
+            {
+                words[1] = bringImportant(words[1], 0);
+                if (words.size() == 3 && usersMap.count(words[1])) 
+                {
+                    usersMap[words[1]].decreaseLike(userName, stoi(words[2]));
+                    
+                } else {
+                    cout << "! Invalid input after dislike \n";
+                }
+            }
+
             else if (words[0] == "logout") 
             {
                 system("clear");
@@ -283,12 +311,14 @@ void Twitterak::userOptions(const string& userName)
                 exit(0);
             }
 
+
             else if (command == "") 
             {
                 // empty
             }
 
-            else {
+            else 
+            {
                 cout << "! invalid command \n";
             }
         }
@@ -297,25 +327,9 @@ void Twitterak::userOptions(const string& userName)
           
             cout << "! Your number is too big\n" ;
         }
-<<<<<<< HEAD
-
-        else if (words[0] == "exit" || // i add this to user can exit without logging out.
-                 words[0] == "quit" || // fuckig good idea
-                 words[0] == "q") {
-            exit(0);
-        }
-
-        else if (command == "") {
-            // empty
-        }
-
-        else {
-            cout << "! invalid command \n";
-=======
         catch (invalid_argument& err)
         {
             cout << err.what() << '\n' ;
->>>>>>> 55ad3a40416d0cef9b7c5da64dd9218493aca96e
         }
     }
 }

@@ -13,14 +13,12 @@ void lowerStr(std::string&);
 class Twitterak;
 
 class User {
-    // friend void lowerStr(string &) ;
     friend class Twitterak;
 
 public:
     User();
     User(std::string, std::string, std::string);
 
-<<<<<<< HEAD
     void setFirsrName  (std::string);
     void setUserName   (std::string);
     void setLink       (std::string);
@@ -40,31 +38,13 @@ public:
     std::string getCountry    () const;
     std::string getPhoneNum   () const;
     std::string getHeaderColor() const;
-=======
-    void setFirsrName(std::string);
-    void setUserName (std::string);
-    void setLink     (std::string);
-    void setPassword (std::string); // rate password
-    void setBiogarghy(std::string);
-    void setCountry  (std::string);
-    void setPhoneNum (std::string); // dose it need validation?
-    void addTweet    (std::string);
-    void setBirthDate(std::string);
-
-    std::string getFirstName() const;
-    std::string getUserName () const;
-    std::string getLink     () const;
-    std::string getPassword () const;
-    std::string getBiogarghy() const;
-    std::string getCountry  () const;
-    std::string getPhoneNum () const;
->>>>>>> 55ad3a40416d0cef9b7c5da64dd9218493aca96e
     std::string getTweet(size_t = 1, size_t = 0); // why cant be const[]?
 
     void checkTweetExist(size_t) ;
     void deleteTweet(std::string);
     void editTweet(std::string);
-    void increaseLike(std::string, int);
+    void increaseLike(std::string, int); //hey size-t***
+    void decreaseLike(std::string, size_t);
     void retweet(User, size_t, std::string = "");
 
     std::string changeProfile(std::vector<std::string>&);
