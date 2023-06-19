@@ -139,6 +139,7 @@ string User::getPhoneNum() const
 string User::getTweet(size_t start, size_t end)
 {
     end = end == 0 ? tweetNumber : end;
+    checkTweetExist(end-1) ;
 
     ostringstream outPut;
     for (size_t i = start; i < end; ++i) {
@@ -152,10 +153,17 @@ string User::getTweet(size_t start, size_t end)
 
     return outPut.str();
 }
-
+void User::checkTweetExist(size_t input) 
+{
+    if(input >= tweetNumber)
+    {
+        throw out_of_range("! This tweet doesn't exict") ;
+    }
+}
 void User::deleteTweet(string tweetNumStr)
 {
     size_t tweetNum = stoi(tweetNumStr);
+    checkTweetExist(tweetNum-1) ;
     tweetOfUser.erase(tweetNum);
 }
 void User::editTweet(string tweetNumStr) // dose tweet exist ? fucntion has cout ??????
@@ -167,7 +175,9 @@ void User::editTweet(string tweetNumStr) // dose tweet exist ? fucntion has cout
     size_t tweetNum = stoi(tweetNumStr);
     string newTweetStr {};
 
-    cout << getTweet(tweetNum, tweetNum + 1) << '\n';
+    checkTweetExist(tweetNum) ;
+
+    cout << getTweet(tweetNum, tweetNum + 1) << '\n'; 
     cout << "Enter new tweet :" << endl;
     getline(cin, newTweetStr);
 
@@ -176,6 +186,7 @@ void User::editTweet(string tweetNumStr) // dose tweet exist ? fucntion has cout
 
 void User ::increaseLike(string userName, int tweetNum)
 {
+    checkTweetExist(tweetNum) ;
     if (tweetOfUser[tweetNum].getLikeSet().find(userName) == tweetOfUser[tweetNum].likeSet.end()) // not find
     {
         tweetOfUser[tweetNum].tweetLikes++;
@@ -223,6 +234,7 @@ string User ::changeProfile(vector<string>& words) // birth day or birthday ??
 
 void User ::retweet(User userInput, size_t tweetNumInput, string tweetAdd)
 {
+    checkTweetExist(tweetNumInput) ;
     string str = '@' + userInput.getUserName() + ": " + userInput.getTweet(tweetNumInput, tweetNumInput + 1) + '\n' + tweetAdd;
     addTweet(str);
 }
@@ -242,3 +254,4 @@ string User::print(bool showPrivate) const
            << "\nage: " << birthDate.getAge() << '\n'; // error!
     return outPut.str();
 }
+
