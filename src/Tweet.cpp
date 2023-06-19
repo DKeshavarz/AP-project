@@ -1,8 +1,8 @@
-
 #include <iostream>
 
 #include "Tweet.h"
 #include "Date.h"
+#include "Functions.h"
 
 using namespace std ;
 
