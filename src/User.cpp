@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -61,6 +62,18 @@ void User::setLink(string inputLink)
         link = inputLink;
     }
 
+}
+void User::ratePassword(string pas)
+{
+    string reservedPass {"1234567890,abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+
+    for (size_t i = 0 ; i < pas.size() ; ++i)
+    {
+        if (pas[i] != string :: npos)
+        {
+            throw("! Your password is too weak");
+        }
+    }
 }
 void User::setPassword(string pas)
 {

@@ -297,25 +297,9 @@ void Twitterak::userOptions(const string& userName)
           
             cout << "! Your number is too big\n" ;
         }
-<<<<<<< HEAD
-
-        else if (words[0] == "exit" || // i add this to user can exit without logging out.
-                 words[0] == "quit" || // fuckig good idea
-                 words[0] == "q") {
-            exit(0);
-        }
-
-        else if (command == "") {
-            // empty
-        }
-
-        else {
-            cout << "! invalid command \n";
-=======
         catch (invalid_argument& err)
         {
             cout << err.what() << '\n' ;
->>>>>>> 55ad3a40416d0cef9b7c5da64dd9218493aca96e
         }
     }
 }
