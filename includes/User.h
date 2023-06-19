@@ -13,7 +13,6 @@ void lowerStr(std::string&);
 class Twitterak;
 
 class User {
-    // friend void lowerStr(string &) ;
     friend class Twitterak;
 
 public:
@@ -45,7 +44,8 @@ public:
     void checkTweetExist(size_t) ;
     void deleteTweet(std::string);
     void editTweet(std::string);
-    void increaseLike(std::string, int);
+    void increaseLike(std::string, int); //hey size-t***
+    void decreaseLike(std::string, size_t);
     void retweet(User, size_t, std::string = "");
 
     std::string changeProfile(std::vector<std::string>&);
