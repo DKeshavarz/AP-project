@@ -21,24 +21,25 @@ public:
     User(std::string, std::string, std::string);
 
     void setFirsrName(std::string);
-    void setUserName(std::string);
-    void setLink(std::string);
-    void setPassword(std::string); // rate password
+    void setUserName (std::string);
+    void setLink     (std::string);
+    void setPassword (std::string); // rate password
     void setBiogarghy(std::string);
-    void setCountry(std::string);
-    void setPhoneNum(std::string); // dose it need validation?
-    void addTweet(std::string);
+    void setCountry  (std::string);
+    void setPhoneNum (std::string); // dose it need validation?
+    void addTweet    (std::string);
     void setBirthDate(std::string);
 
     std::string getFirstName() const;
-    std::string getUserName() const;
-    std::string getLink() const;
-    std::string getPassword() const;
+    std::string getUserName () const;
+    std::string getLink     () const;
+    std::string getPassword () const;
     std::string getBiogarghy() const;
-    std::string getCountry() const;
-    std::string getPhoneNum() const;
+    std::string getCountry  () const;
+    std::string getPhoneNum () const;
     std::string getTweet(size_t = 1, size_t = 0); // why cant be const[]?
 
+    void checkTweetExist(size_t) ;
     void deleteTweet(std::string);
     void editTweet(std::string);
     void increaseLike(std::string, int);

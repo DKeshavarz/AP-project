@@ -2,7 +2,7 @@
 // "\n\n" and '\n\n'
 // software architect
 // progit
-// add help in user option ...........
+
 // zibasazi notweet yet
 // fix @usernames in useroptions
 
@@ -18,9 +18,9 @@
 #include "User.h"
 #include "Functions.h"
 
-using namespace std;
+#define  n  1  // for sleep time
 
-const int n = 1 ; // for sleep time
+using namespace std;
 
 void Twitterak::run()
 {
@@ -175,110 +175,132 @@ void Twitterak::userOptions(const string& userName)
     string command;
     cin.ignore();
 
-    while (command != "logout") {
-
-        cout << ">@" << userName << '>';
-
-        getline(cin, command);
-        lowerStr(command);
-
-        vector<string> words = wordSeparator(command);
-
-        if (words[0] == "profile" || words[0] == "me") {
-            if (command.size() > 7) {
-                cout << usersMap[bringImportant(command, 8)].print(0) << '\n';
-            } else {
-                cout << usersMap[userName].print(1) << '\n';
-            }
-        }
-
-        else if (words[0] == "help") {
-            cout << helpLogin();
-        }
-
-        else if (words.size() >= 4 && words[0] + " " + words[1] == "edit profile") {
-            try {
-                cout << usersMap[userName].changeProfile(words) << '\n';
-            } catch (invalid_argument& err) {
-                cout << err.what() << '\n';
-            }
-        }
-
-        else if (command == "delete account") {
-            if (deleteAccount(userName))
-                command = "logout";
-        }
-
-        else if (words[0] == "tweet") {
-            usersMap[userName].addTweet(bringImportant(command, 6));
-        }
-
-        else if (words[0] == "@me" || usersMap.count(bringImportant(command, 0))) // e
+    while (command != "logout") 
+    {
+        try
         {
-            if (command == words[0]) {
-                cout << '\n';
-                cout << usersMap[userName].getTweet() << '\n';
-            }
+            cout << ">@" << userName << '>';
 
-            cout << '\n';
-            cout << usersMap[bringImportant(command, 0)].getTweet() << '\n';
-        } 
-        else if (words.size() > 1 && usersMap.count(bringImportant(words[0]))) // need some work
-        {
-            cout << '\n'
-                 << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]), stoi(words[1]) + 1) << '\n';
-        }
+            getline(cin, command);
+            lowerStr(command);
 
-        else if (command.substr(0, 13) == "delete tweet ") {
-            usersMap[userName].deleteTweet(bringImportant(command, 13));
-        }
+            vector<string> words = wordSeparator(command);
 
-        else if (command.substr(0, 11) == "edit tweet ") {
-            usersMap[userName].editTweet(bringImportant(command, 11));
-        }
-
-        else if (words.size() > 2 && words[0] == "retweet") // check if user is alive!
-        {
-            usersMap[userName].retweet(usersMap[words[1]], stoi(words[2]));
-        } 
-        else if (words.size() > 2 && words[0] + " " + words[1] == "quote tweet") // check if user is alive!
-        {
-            for (size_t i = 5; i < words.size(); ++i) {
-                words[4] += words[i];
-            }
-            usersMap[userName].retweet(usersMap[words[2]], stoi(words[3]), words[4]);
-        }
-
-        else if (words[0] == "like") {
-            words[1] = bringImportant(words[1], 0);
-            if (words.size() == 3 && usersMap.count(words[1])) {
-                try {
-                    usersMap[words[1]].increaseLike(userName, stoi(words[2]));
-                } catch (invalid_argument& err) {
-                    cout << err.what() << '\n';
+            if (words[0] == "profile" || words[0] == "me")  //profile "mabyuser name"
+            {
+                if (command.size() > 7) 
+                {
+                    cout << usersMap[bringImportant(command, 8)].print(0) << '\n';
+                } 
+                else 
+                {
+                    cout << usersMap[userName].print(1) << '\n';
                 }
-            } else {
-                cout << "! Invalid input after like \n";
+            }
+
+            else if (words[0] == "help") //help
+            {
+                cout << helpLogin();
+            }
+
+            else if (words.size() >= 4 && words[0] + " " + words[1] == "edit profile") //edit profile somepart "somethinf  f f"
+            {
+                    cout << usersMap[userName].changeProfile(words) << '\n';          
+            }
+
+            else if (command == "delete account") //delete account
+            {
+                if (deleteAccount(userName))
+                    command = "logout";
+            }
+
+            else if (words[0] == "tweet") //tweet 7 
+            {
+                usersMap[userName].addTweet(bringImportant(command, 6));
+            }
+
+            else if (words[0] == "@me" || usersMap.count(bringImportant(command, 0))) // @username
+            {
+                if (command == words[0])
+                {
+                    cout << '\n'<< usersMap[userName].getTweet() << '\n';
+                }
+                else
+                {
+                    cout << usersMap[bringImportant(command, 0)].getTweet() << '\n';
+                }
+
+            } 
+            else if (words.size() > 1 && usersMap.count(bringImportant(words[0]))) // @username:number
+            {
+                cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]), stoi(words[1]) + 1) << '\n';
+            }
+
+            else if (command.substr(0, 13) == "delete tweet ") //delete tweet 4
+            {
+                usersMap[userName].deleteTweet(bringImportant(command, 13));
+            }
+
+            else if (command.substr(0, 11) == "edit tweet ")  // edit tweet 8
+            {
+                usersMap[userName].editTweet(bringImportant(command, 11));
+            }
+
+            else if (words.size() > 2 && words[0] == "retweet") // retweet @rrrrrr:rrr   ****chech user
+            {
+                usersMap[userName].retweet(usersMap[words[1]], stoi(words[2]));
+            } 
+            else if (words.size() > 2 && words[0] + " " + words[1] == "quote tweet")  // retweet @rrrrrr:rrr "dddddd"  ****chech user
+            {
+                for (size_t i = 5; i < words.size(); ++i) //fucking bad*******************
+                {
+                    words[4] += words[i];
+                }
+                usersMap[userName].retweet(usersMap[words[2]], stoi(words[3]), words[4]);
+            }
+
+            else if (words[0] == "like") // like @user:8
+            {
+                words[1] = bringImportant(words[1], 0);
+                if (words.size() == 3 && usersMap.count(words[1])) 
+                {
+                    usersMap[words[1]].increaseLike(userName, stoi(words[2]));
+                    
+                } else {
+                    cout << "! Invalid input after like \n";
+                }
+            }
+
+            else if (words[0] == "logout") 
+            {
+                system("clear");
+                cout << "* Logout succesfully\n"; // we most push enter to that line get the other line! //update : bug fixed
+            }
+
+            else if (words[0] == "exit" ||
+                     words[0] == "quit" || 
+                     words[0] == "q"      ) 
+            {
+                exit(0);
+            }
+
+            else if (command == "") 
+            {
+                // empty
+            }
+
+            else {
+                cout << "! invalid command \n";
             }
         }
-
-        else if (words[0] == "logout") {
-            system("clear");
-            cout << "* Logout succesfully\n"; // we most push enter to that line get the other line! //update : bug fixed
+        catch(out_of_range &err)
+        {
+          
+            cout << "! Your number is too big\n" ;
         }
-
-        else if (words[0] == "exit" || // i add this to user can exit without logging out.
-            words[0] == "quit" || // fuckig good idea
-            words[0] == "q") {
-            exit(0);
-        }
-
-        else if (command == "") {
-            // empty
-        }
-
-        else {
-            cout << "! invalid command \n";
+        catch (invalid_argument& err)
+        {
+            cout << err.what() << '\n' ;
         }
     }
 }
