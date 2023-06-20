@@ -44,6 +44,7 @@ void Twitterak::run()
 
     bool isGoing = 1;
     string caseOfMenu {""};
+
     while (isGoing) {
         caseOfMenu = "";
         cout << ">";
@@ -191,6 +192,8 @@ void Twitterak::userOptions(const string& userName)
 {
     string command;
     cin.ignore();
+
+    unordered_map<string,void (*)()>commandMap {{"me",print()}};
 
     while (command != "logout") 
     {

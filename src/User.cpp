@@ -63,8 +63,9 @@ void User::setLink(string inputLink)
     }
 
 }
-bool User::ratePassword(string pas)
+/*bool User::ratePassword(string pas)
 {
+    cout << pas << '\n' ;
     int rate = 0;
 
     for ( size_t i = 0 ; i < pas.size() ; ++i)
@@ -103,18 +104,19 @@ bool User::ratePassword(string pas)
         }
     }
 
+    cout << "rate"
     if (rate < 8)
         return 0;
     else
         return 1;
-}
+}*/                     //becarefull about rateeee
 
 void User::setPassword(string pas) 
 {
-    //if (ratePassword(pas)) //error
-    password = pas;
+    //if (ratePassword(pas))
+        password = pas;
     //else
-        //throw invalid_argument ("! Your password is too weak"); //error
+    //    throw invalid_argument ("! Your password is too weak"); 
 }
 
 void User::setBiogarghy(string bio)
@@ -139,13 +141,15 @@ void User::setBirthDate(string inputString)
 
 void User::setHeaderColor(string inputColor)
 {
-    string reservedColors { "blue,green,red,yellow,black,white,orange,purple" }; //need some work
-    if (reservedColors.find(inputColor) != string :: npos)
+    string reservedColors { "blue","green,red,yellow,black,white,orange,purple" }; //need some work
+    if (reservedColors.find(inputColor) == string :: npos)
     {
         throw invalid_argument ("! Your color does not exist");
     }
     else
+    {
         headerColor = inputColor;
+    }
 
 }
 
