@@ -22,6 +22,7 @@
 
 using namespace std;
 
+
 string Twitterak::defaultAdd() //add user format name , firsCharOf name + 1234,firsCharOf name
 {
     ostringstream outPut;
@@ -179,6 +180,7 @@ string Twitterak::helpLogin() const
         << "retweet username:number              : When you want retweet another user tweet!\n"
         << "quote tweet username:number add tweet: Exactly like retweet, but you add a tweet after number.\n"
         << "like username:number of tweet        : If you want to like that tweet(please do not do that, just dislike bullshit tweets).\n"
+        << "dislike username:number of tweet     : If you want to dislike that tweet ,note that you most already liked that tweet before.\n"
         << "logout                               : For logging out your account.\n"
         << "exit or quit or q                    : For close the program.\n";
 
@@ -301,7 +303,7 @@ void Twitterak::userOptions(const string& userName)
             else if (words[0] == "logout") 
             {
                 system("clear");
-                cout << "* Logout succesfully\n"; // we most push enter to that line get the other line! //update : bug fixed
+                cout << "* Logout succesfully\n";
             }
 
             else if (words[0] == "exit" ||

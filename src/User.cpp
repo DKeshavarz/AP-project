@@ -17,8 +17,8 @@ vector<string> wordSeparator(string);
 string bringImportant(const string&, size_t);
 
 User::User()
-{
-}
+{}
+
 User::User(string firsName, string userName, string password)
     : tweetNumber { 1 }
 {
@@ -44,7 +44,7 @@ void User::setUserName(string Uname)
         }
     }
 
-    string reservedWord { "exit,help,login,edit,signup,logout,profile" }; // it may contion more...//i add some
+    string reservedWord { "exit,help,login,edit,signup,logout,profile" };
 
     if (reservedWord.find(Uname) != string::npos)
         throw invalid_argument("! Username is a command!!");
@@ -63,7 +63,7 @@ void User::setLink(string inputLink)
     }
 
 }
-/*bool User::ratePassword(string pas) //error
+bool User::ratePassword(string pas)
 {
     int rate = 0;
 
@@ -107,13 +107,14 @@ void User::setLink(string inputLink)
         return 0;
     else
         return 1;
-}*/
+}
+
 void User::setPassword(string pas) 
 {
     //if (ratePassword(pas)) //error
-        password = pas;
+    password = pas;
     //else
-        //throw invalid_argument ("! Your password is too weak");
+        //throw invalid_argument ("! Your password is too weak"); //error
 }
 
 void User::setBiogarghy(string bio)
@@ -138,12 +139,13 @@ void User::setBirthDate(string inputString)
 
 void User::setHeaderColor(string inputColor)
 {
-    string reservedColors {"blue,green,red,yellow,black,white,orange,purple"};
+    string reservedColors { "blue,green,red,yellow,black,white,orange,purple" }; //need some work
     if (reservedColors.find(inputColor) != string :: npos)
     {
         throw invalid_argument ("! Your color does not exist");
     }
-    headerColor = inputColor;
+    else
+        headerColor = inputColor;
 
 }
 
