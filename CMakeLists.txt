@@ -7,7 +7,8 @@ set(SOURCES
     src/Tweet.cpp
     src/User.cpp
     src/Date.cpp
-    src/Functions
+    src/Functions.cpp
+    hash-library/sha256.cpp
 )
-include_directories(includes/)
+include_directories(includes/ hash-library/)
 add_executable(app ${SOURCES})

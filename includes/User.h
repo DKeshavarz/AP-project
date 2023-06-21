@@ -30,8 +30,6 @@ public:
     void setHeaderColor(std::string); //e
     void addTweet      (std::string);
     void setBirthDate  (std::string);
-    
-    bool ratePassword  (std::string);//e
 
     std::string getFirstName  () const;
     std::string getUserName   () const;

@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <vector>
 
+#include "sha256.h"
 #include "Twitterak.h"
 #include "User.h"
 #include "Functions.h"
@@ -21,7 +22,7 @@
 #define  sleepTime  1  // for sleep time
 
 using namespace std;
-
+SHA256 sha256;
 
 string Twitterak::defaultAdd() //add user format name , firsCharOf name + 1234,firsCharOf name
 {
@@ -90,15 +91,15 @@ void Twitterak::logIn(vector<string> words)
     } 
     else 
     {
-        tempPassword = getpass("$ Password :"); // this can only hide the password
+        tempPassword = getpass("$ Password :");
     }
 
     tempUserName = bringImportant(tempUserName, 0);
-
+    
     if (usersMap.count(tempUserName)) // logic error in last try
     {
         int wrongTrys { 2 };
-        for (; usersMap[tempUserName].getPassword() != tempPassword && wrongTrys > 0; wrongTrys--) // is it correct?
+        for (; usersMap[tempUserName].getPassword() != sha256(tempPassword) && wrongTrys > 0; wrongTrys--) // is it correct?
         {
             cout << "! Incorect password\n"
                  << wrongTrys << " Try remain :";
@@ -132,12 +133,12 @@ void Twitterak::signUp(vector<string> words)
     if (usersMap.count(tempUserName)) {
         cout << "! Duplicate user name\n";
     } else {
-        tempPassword = getpass("$ Password :"); // this can only hide the password
+        tempPassword = getpass("$ Password :");
         cout << "$ Name : ";
         cin >> tempName;
 
         try {
-            User temp(tempName, tempUserName, tempPassword);
+            User temp(tempName, tempUserName,tempPassword);
             usersMap[tempUserName] = temp;
             cout << "* Registration successful\n";
             sleep(sleepTime);
@@ -305,6 +306,11 @@ void Twitterak::userOptions(string& userName)
                 } else {
                     cout << "! Invalid input after like \n";
                 }
+            }
+
+            else if (words[2] == "like")
+            {
+                
             }
 
             else if(words[0] == "dislike")//dislike @username:4 //check user name  

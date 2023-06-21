@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "sha256.h"
 #include "Date.h"
 #include "Functions.h"
 #include "Tweet.h"
@@ -12,6 +13,7 @@
 #include "User.h"
 
 using namespace std;
+
 
 User::User()
 {}
@@ -53,7 +55,7 @@ void User::setUserName(string Uname)
 }
 void User::setLink(string inputLink)
 {
-    if (inputLink.find("https://") == string :: npos)
+    if (inputLink.find("https://") == string :: npos) // fix this
     {
         link = "https://" + inputLink;
     }
@@ -66,7 +68,15 @@ void User::setLink(string inputLink)
 
 void User::setPassword(string pas) 
 {
+<<<<<<< HEAD
     password = pas;
+=======
+    //if (ratePassword(pas)) //error
+    SHA256 sha256;
+    password = sha256(pas);
+    //else
+        //throw invalid_argument ("! Your password is too weak"); //error
+>>>>>>> ab142da5ba8b80e49d09afafb557b4e1b70397e3
 }
 
 void User::setBiogarghy(string bio)
@@ -82,7 +92,21 @@ void User::setCountry(string country)
 }
 void User::setPhoneNum(string phone) // dose it need validation?
 {
-    phoneNumber = phone;
+    size_t siz = 0;
+
+    for (size_t i = 0 ; i < phone.size() ; ++i)
+    {
+        if (phone[i] >= '0' && phone[i] <= '9')
+        {
+            ++ siz;
+        }
+    }
+
+    if (phone.size() - 1 == siz )
+        phoneNumber = phone;
+    else
+        throw invalid_argument ("! You most enter a number");
+
 }
 void User::setBirthDate(string inputString)
 {
@@ -91,14 +115,24 @@ void User::setBirthDate(string inputString)
 
 void User::setHeaderColor(string inputColor)
 {
-    string reservedColors { "blue,green,red,yellow,black,white,orange,purple" }; //need some work
-    if (reservedColors.find(inputColor) != string :: npos)
+    string reservedColors[8] { "blue ","green ","red ","yellow ","black ","white ","orange ","purple " };
+    bool flag = 1;
+    for (int i = 0 ; i < 8 ; i++)
     {
-        throw invalid_argument ("! Your color does not exist");
+        if (reservedColors[i] != inputColor)
+            flag = 0;
+        else
+        {
+            flag = 1;
+            break;
+        }        
+    }
+    if (flag)
+    {
+        headerColor = inputColor;
     }
     else
-        headerColor = inputColor;
-
+        throw invalid_argument ("! Your color does not exist");
 }
 
 void User::addTweet(string inputTweetStr)
@@ -217,8 +251,9 @@ string User ::changeProfile(vector<string>& words) // birth day or birthday ??
 {
     string input;
     for (size_t i = 3; i < words.size(); ++i)
+    {
         input += words[i] + ' ';
-
+    }
     words[3] = bringImportant(input, 0);
     ostringstream outPut;
 
@@ -252,15 +287,19 @@ string User::print(bool showPrivate) const
     ostringstream outPut;
 
     outPut << "\nHeadercolor: " << headerColor;
-    if (showPrivate) {
-        outPut << "\n\nPassword: " << password;
+
+    if (showPrivate) 
+    {
+        outPut << "\n\nPassword   : " << password;
     }
-    outPut << "\nName: " << firsName
-           << "\nUsername: " << userName
-           << "\nLink: " << link
-           << "\nBiography: " << biogarghy
-           << "\nCountry: " << country
-           << "\nage: " << birthDate.getAge() << '\n'; // error!
+
+    outPut << "\nName       : " << firsName
+           << "\nUsername   : " << userName
+           << "\nLink       : " << link
+           << "\nBiography  : " << biogarghy
+           << "\nCountry    : " << country
+           << "\nPhonenumber: " << phoneNumber
+           << "\nage        : " << birthDate.getAge() << '\n'; // error!
     return outPut.str();
 }
 

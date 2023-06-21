@@ -1,5 +1,4 @@
 valedation phone number
-rate password
-hash password
+rate password ...
 
 
