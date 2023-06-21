@@ -187,7 +187,7 @@ string Twitterak::helpLogin() const
     return outPut.str();
 }
 
-void Twitterak::userOptions(const string& userName)
+void Twitterak::userOptions(string& userName)
 {
     string command;
     cin.ignore();
@@ -212,6 +212,25 @@ void Twitterak::userOptions(const string& userName)
                 else 
                 {
                     cout << usersMap[userName].print(1) << '\n';
+                }
+            }
+
+            else if(words.size() >= 4 && words[0]+ " " +words[1]+ " " + words[2] == "edit profile username")
+            {
+                string tempUserName = vecToStr(words , 3);
+                bringImportant(tempUserName) ;
+
+                if(usersMap.count(tempUserName))
+                {
+                    cout << "duplicated user name can't change \n" ;
+                }
+                else
+                {
+                    usersMap[userName].setUserName(tempUserName) ;
+                    usersMap[tempUserName] = usersMap[userName];
+                    usersMap.erase(userName) ;
+                    userName = tempUserName ;
+
                 }
             }
 

@@ -13,9 +13,6 @@
 
 using namespace std;
 
-vector<string> wordSeparator(string);
-string bringImportant(const string&, size_t);
-
 User::User()
 {}
 
@@ -44,10 +41,13 @@ void User::setUserName(string Uname)
         }
     }
 
-    string reservedWord { "exit,help,login,edit,signup,logout,profile" };
+    string reservedWord[]{ "exit","help","login","edit","signup","logout","profile","tweet" };
 
-    if (reservedWord.find(Uname) != string::npos)
-        throw invalid_argument("! Username is a command!!");
+    for(const string& i : reservedWord)
+    {
+        if(i == Uname)
+            throw invalid_argument("! You can't use reserved key");
+    }
 
     userName = Uname;
 }
@@ -63,58 +63,10 @@ void User::setLink(string inputLink)
     }
 
 }
-bool User::ratePassword(string pas)
-{
-    int rate = 0;
-
-    for ( size_t i = 0 ; i < pas.size() ; ++i)
-    {
-        if     (pas[i] >= '!' && pas[i] <= '/')
-        {
-            rate ++;
-        }
-
-        else if (pas[i] >= '0' && pas[i] <= '9')
-        {
-            rate ++;
-        }
-
-        else if (pas[i] >=':' && pas[i] <= '@')
-        {
-            rate ++;
-        }
-
-        else if (pas[i] >='A' && pas[i] <= 'Z')
-        {
-            rate ++;
-        }
-
-        else if (pas[i] >= 'a' && pas[i] <= 'z')
-        {
-            rate ++;
-        }
-
-        if (i > 0 && i < pas.size())
-        {
-            if (pas[i] == pas[i-1])
-            {
-                rate --;
-            }
-        }
-    }
-
-    if (rate < 8)
-        return 0;
-    else
-        return 1;
-}
 
 void User::setPassword(string pas) 
 {
-    //if (ratePassword(pas)) //error
     password = pas;
-    //else
-        //throw invalid_argument ("! Your password is too weak"); //error
 }
 
 void User::setBiogarghy(string bio)

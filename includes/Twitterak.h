@@ -7,7 +7,13 @@
 #ifndef TWITERAK_H
 #define TWITERAK_H
 
-class Twitterak {
+class User;
+
+class Twitterak 
+{
+
+//friend void User::setUserName(std::string) ;
+
 public:
     void run();
 
@@ -22,7 +28,7 @@ private:
     std::string help      () const;
     std::string helpLogin () const;
 
-    void userOptions  (const std::string&);
+    void userOptions  (std::string&);
     bool deleteAccount(const std::string&);
     // void addHashtag  ()
 };
