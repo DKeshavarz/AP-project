@@ -183,7 +183,7 @@ string Twitterak::helpLogin() const
         << "retweet username:number              : When you want retweet another user tweet!\n"
         << "quote tweet username:number add tweet: Exactly like retweet, but you add a tweet after number.\n"
         << "like username:number of tweet        : If you want to like that tweet(please do not do that, just dislike bullshit tweets).\n"
-        << "username:number of that tweet :like  : If you want to see who liked that tweet.\n"
+        << "username:number of that tweet :likes : If you want to see who liked that tweet.\n"
         << "dislike username:number of tweet     : If you want to dislike that tweet ,note that you most already liked that tweet before.\n"
         << "logout                               : For logging out your account.\n"
         << "exit or quit or q                    : For close the program.\n";
@@ -272,9 +272,9 @@ void Twitterak::userOptions(string& userName)
                     cout << usersMap[bringImportant(command, 0)].getTweet() << '\n';
                 }
 
-            } 
+            }
 
-            else if (words.size() > 1 && usersMap.count(bringImportant(words[0])) && words[2] == "like") //e
+            else if ((words.size() > 1)  && (usersMap.count(bringImportant(words[0]))) && (words[2] == "likes"))
             {
                 for (auto i : usersMap[words[0]].tweetOfUser[stoi(words[1])].getLikeSet())
                 {
@@ -282,10 +282,12 @@ void Twitterak::userOptions(string& userName)
                 }
             }
 
-            else if (words.size() > 1 && usersMap.count(bringImportant(words[0]))) // @username:number
+            else if ((words.size() > 1) && (usersMap.count(bringImportant(words[0])))) // @username:number
             {
                 cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]), stoi(words[1]) + 1) << '\n';
+                
             }
+
             else if (command.substr(0, 13) == "delete tweet ") //delete tweet 4 // have problem!
             {
                 usersMap[userName].deleteTweet(bringImportant(command, 13));
