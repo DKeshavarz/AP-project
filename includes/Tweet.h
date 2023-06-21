@@ -18,9 +18,9 @@ public:
 
     std::string getTweetStr() const;
     std::unordered_set<std::string> getLikeSet() const { return likeSet; }
-    std::unordered_set<std::string> likeSet;
 
 private:
+    std::unordered_set<std::string> likeSet;
     std::string tweetStr;
     std::vector<Tweet*> mentions;
 

@@ -10,4 +10,6 @@ void lowerStr(std::string &);
 
 std::string bringImportant(const std::string& , size_t = 0 ); //sugest to pass argument for delete
 
+std::string vecToStr (std::vector<std::string>, size_t );
+
 #endif

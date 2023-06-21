@@ -12,7 +12,8 @@ void lowerStr(std::string&);
 
 class Twitterak;
 
-class User {
+class User 
+{
     friend class Twitterak;
 
 public:

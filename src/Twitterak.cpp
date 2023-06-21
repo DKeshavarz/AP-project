@@ -191,7 +191,7 @@ string Twitterak::helpLogin() const
     return outPut.str();
 }
 
-void Twitterak::userOptions(const string& userName)
+void Twitterak::userOptions(string& userName)
 {
     string command;
     cin.ignore();
@@ -216,6 +216,25 @@ void Twitterak::userOptions(const string& userName)
                 else 
                 {
                     cout << usersMap[userName].print(1) << '\n';
+                }
+            }
+
+            else if(words.size() >= 4 && words[0]+ " " +words[1]+ " " + words[2] == "edit profile username")
+            {
+                string tempUserName = vecToStr(words , 3);
+                bringImportant(tempUserName) ;
+
+                if(usersMap.count(tempUserName))
+                {
+                    cout << "! Duplicated user name can't change \n" ;
+                }
+                else
+                {
+                    usersMap[userName].setUserName(tempUserName) ;
+                    usersMap[tempUserName] = usersMap[userName];
+                    usersMap.erase(userName) ;
+                    userName = tempUserName ;
+
                 }
             }
 
@@ -255,9 +274,9 @@ void Twitterak::userOptions(const string& userName)
 
             } 
 
-            else if (words[2] == "like") //e
+            else if (words.size() > 1 && usersMap.count(bringImportant(words[0])) && words[2] == "like") //e
             {
-                for (auto i : usersMap[words[0]].tweetOfUser[stoi(words[1])].likeSet)
+                for (auto i : usersMap[words[0]].tweetOfUser[stoi(words[1])].getLikeSet())
                 {
                     cout << i << '\n';
                 }
@@ -267,7 +286,6 @@ void Twitterak::userOptions(const string& userName)
             {
                 cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]), stoi(words[1]) + 1) << '\n';
             }
-
             else if (command.substr(0, 13) == "delete tweet ") //delete tweet 4 // have problem!
             {
                 usersMap[userName].deleteTweet(bringImportant(command, 13));
@@ -333,7 +351,7 @@ void Twitterak::userOptions(const string& userName)
 
             else if (command == "") 
             {
-                // empty
+                //empty
             }
 
             else 

@@ -14,9 +14,6 @@
 
 using namespace std;
 
-vector<string> wordSeparator(string);
-
-string bringImportant(const string&, size_t);
 
 User::User()
 {}
@@ -46,10 +43,13 @@ void User::setUserName(string Uname)
         }
     }
 
-    string reservedWord { "exit,help,login,edit,signup,logout,profile" };
+    string reservedWord[]{ "exit","help","login","edit","signup","logout","profile","tweet" };
 
-    if (reservedWord.find(Uname) != string::npos)
-        throw invalid_argument("! Username is a command!!");
+    for(const string& i : reservedWord)
+    {
+        if(i == Uname)
+            throw invalid_argument("! You can't use reserved key");
+    }
 
     userName = Uname;
 }
@@ -68,11 +68,9 @@ void User::setLink(string inputLink)
 
 void User::setPassword(string pas) 
 {
-    //if (ratePassword(pas)) //error
     SHA256 sha256;
     password = sha256(pas);
-    //else
-        //throw invalid_argument ("! Your password is too weak"); //error
+    
 }
 
 void User::setBiogarghy(string bio)
