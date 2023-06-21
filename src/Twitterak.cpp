@@ -170,12 +170,13 @@ string Twitterak::helpLogin() const
     ostringstream outPut;
     outPut
         << "profile or me                        : For see your account details.\n"
+        << "profile username                     : When you want to see another person account.\n"
         << "edit profile                         : For edit your account details , like this -> edit profile birthdate 2000 12 12.\n"
         << "delete account                       : If you want to delete your account(yes please do that!).\n"
         << "tweet                                : When you want to add a tweet , like this -> tweet Hey ya loser! welcome to LA!\n"
         << "@me or your username                 : If you want to see your tweets.\n"
         << "another person username              : If you want to see tweet of another users.\n"
-        << "username:a number                    : If you want to see one of your tweets or another users tweets (number most be a number!).\n\n"
+        << "username:number of that tweet        : If you want to see one of your tweets or another users tweets (number most be a number!).\n"
         << "delete tweet number of that tweet    : If you want to delet that tweet(yes please delete all your bullshit tweets).\n"
         << "edit tweet number of that tweet      : If you want to edit that tweet!\n"
         << "retweet username:number              : When you want retweet another user tweet!\n"
@@ -235,6 +236,7 @@ void Twitterak::userOptions(const string& userName)
             else if (words[0] == "tweet") //tweet 7 
             {
                 usersMap[userName].addTweet(bringImportant(command, 6));
+                cout <<"* Tweeted!\n";
             }
 
             else if (words[0] == "@me" || usersMap.count(bringImportant(command, 0))) // @username
@@ -254,7 +256,7 @@ void Twitterak::userOptions(const string& userName)
                 cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]), stoi(words[1]) + 1) << '\n';
             }
 
-            else if (command.substr(0, 13) == "delete tweet ") //delete tweet 4
+            else if (command.substr(0, 13) == "delete tweet ") //delete tweet 4 // have problem!
             {
                 usersMap[userName].deleteTweet(bringImportant(command, 13));
             }
@@ -283,15 +285,11 @@ void Twitterak::userOptions(const string& userName)
                 if (words.size() == 3 && usersMap.count(words[1])) 
                 {
                     usersMap[words[1]].increaseLike(userName, stoi(words[2]));
+                    cout <<"* Liked!\n";
                     
                 } else {
                     cout << "! Invalid input after like \n";
                 }
-            }
-
-            else if (words[2] == "like")
-            {
-                
             }
 
             else if(words[0] == "dislike")//dislike @username:4 //check user name  
@@ -300,6 +298,7 @@ void Twitterak::userOptions(const string& userName)
                 if (words.size() == 3 && usersMap.count(words[1])) 
                 {
                     usersMap[words[1]].decreaseLike(userName, stoi(words[2]));
+                    cout <<"* Disliked!\n";
                     
                 } else {
                     cout << "! Invalid input after dislike \n";
