@@ -7,6 +7,7 @@
 // fix @usernames in useroptions
 
 #include <cctype>
+#include <cstddef>
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>
@@ -182,6 +183,7 @@ string Twitterak::helpLogin() const
         << "retweet username:number              : When you want retweet another user tweet!\n"
         << "quote tweet username:number add tweet: Exactly like retweet, but you add a tweet after number.\n"
         << "like username:number of tweet        : If you want to like that tweet(please do not do that, just dislike bullshit tweets).\n"
+        << "username:number of that tweet :like  : If you want to see who liked that tweet.\n"
         << "dislike username:number of tweet     : If you want to dislike that tweet ,note that you most already liked that tweet before.\n"
         << "logout                               : For logging out your account.\n"
         << "exit or quit or q                    : For close the program.\n";
@@ -233,11 +235,12 @@ void Twitterak::userOptions(const string& userName)
                     command = "logout";
             }
 
+
             else if (words[0] == "tweet") //tweet 7 
             {
                 usersMap[userName].addTweet(bringImportant(command, 6));
-                cout <<"* Tweeted!\n";
             }
+
 
             else if (words[0] == "@me" || usersMap.count(bringImportant(command, 0))) // @username
             {
@@ -251,6 +254,15 @@ void Twitterak::userOptions(const string& userName)
                 }
 
             } 
+
+            else if (words[2] == "like") //e
+            {
+                for (auto i : usersMap[words[0]].tweetOfUser[stoi(words[1])].likeSet)
+                {
+                    cout << i << '\n';
+                }
+            }
+
             else if (words.size() > 1 && usersMap.count(bringImportant(words[0]))) // @username:number
             {
                 cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]), stoi(words[1]) + 1) << '\n';
@@ -285,7 +297,6 @@ void Twitterak::userOptions(const string& userName)
                 if (words.size() == 3 && usersMap.count(words[1])) 
                 {
                     usersMap[words[1]].increaseLike(userName, stoi(words[2]));
-                    cout <<"* Liked!\n";
                     
                 } else {
                     cout << "! Invalid input after like \n";
@@ -298,9 +309,10 @@ void Twitterak::userOptions(const string& userName)
                 if (words.size() == 3 && usersMap.count(words[1])) 
                 {
                     usersMap[words[1]].decreaseLike(userName, stoi(words[2]));
-                    cout <<"* Disliked!\n";
                     
-                } else {
+                } 
+                else 
+                {
                     cout << "! Invalid input after dislike \n";
                 }
             }
@@ -340,6 +352,7 @@ void Twitterak::userOptions(const string& userName)
         }
     }
 }
+
 bool Twitterak::deleteAccount(const string& userName)
 {
     string command;

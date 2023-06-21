@@ -18,10 +18,10 @@ public:
 
     std::string getTweetStr() const;
     std::unordered_set<std::string> getLikeSet() const { return likeSet; }
+    std::unordered_set<std::string> likeSet;
 
 private:
     std::string tweetStr;
-    std::unordered_set<std::string> likeSet;
     std::vector<Tweet*> mentions;
 
     int tweetLikes {};
