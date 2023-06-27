@@ -17,9 +17,9 @@ private:
 
     void logIn (std::vector<std::string>);
     void signUp(std::vector<std::string>);
+    void help  (std::vector<std::string>); //const??
 
     std::string defaultAdd();
-    std::string help      () const;
     std::string helpLogin () const;
 
     void userOptions  (const std::string&);

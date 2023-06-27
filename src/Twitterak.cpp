@@ -1,11 +1,3 @@
-// tuple
-// "\n\n" and '\n\n'
-// software architect
-// progit
-
-// zibasazi notweet yet
-// fix @usernames in useroptions
-
 #include <cctype>
 #include <iostream>
 #include <sstream>
@@ -13,6 +5,7 @@
 #include <string>
 #include <unistd.h>
 #include <vector>
+#include <unordered_map>
 
 #include "Twitterak.h"
 #include "User.h"
@@ -54,17 +47,19 @@ void Twitterak::run()
 
         vector<string> words = wordSeparator(caseOfMenu);
 
-        if (words[0] == "login") // still need work
-            logIn(words);
+        unordered_map <string , void(Twitterak::*)(vector<string>) > connectiveMap ;
 
-        else if (words[0] == "signup")
-            signUp(words);
+        connectiveMap["login" ] = &Twitterak::logIn;
+        connectiveMap["signup"] = &Twitterak::signUp;
+        connectiveMap["help"  ] = &Twitterak::help;
 
-        else if (caseOfMenu == "help")
-            cout << help();
-
-        else if (caseOfMenu == "") {
+        if(connectiveMap.count(words[0]))
+        {
+            auto fun = connectiveMap[words[0]] ;
+            (this->*fun) (words) ;
         }
+
+        else if (caseOfMenu == "") ;
 
         else if (caseOfMenu == "exit" || caseOfMenu == "q" || caseOfMenu == "quit")
             isGoing = 0;
@@ -77,13 +72,14 @@ void Twitterak::logIn(vector<string> words)
 {
     string tempUserName {}, tempPassword {};
 
-    system("clear");
-
-    if (words.size() > 1) {
+    if (words.size() > 1) 
+    {
         tempUserName = words[1];
-    } else {
+    } 
+    else 
+    {
         cout << "$ Username :";
-        cin >> tempUserName;
+        getline(cin,tempUserName);
     }
 
     if (words.size() > 2) {
@@ -91,10 +87,10 @@ void Twitterak::logIn(vector<string> words)
     } 
     else 
     {
-        tempPassword = getpass("$ Password :"); // this can only hide the password
+        tempPassword = getpass("$ Password :");
     }
 
-    tempUserName = bringImportant(tempUserName, 0);
+    tempUserName = bringImportant(tempUserName, 0); //better to add other function
 
     if (usersMap.count(tempUserName)) // logic error in last try
     {
@@ -118,12 +114,17 @@ void Twitterak::signUp(vector<string> words)
 {
     system("clear");
     string tempName, tempUserName, tempPassword;
-    if (words.size() == 2) {
+    if (words.size() == 2) 
+    {
         tempUserName = words[1];
-    } else if (words.size() == 1) {
+    } 
+    else if (words.size() == 1) 
+    {
         cout << "$ Username :";
-        cin >> tempUserName; // carefull about @m1234
-    } else {
+        getline(cin , tempUserName); // carefull about @m1234
+    } 
+    else 
+    {
         cout << "! Invalid input \n";
         return;
     }
@@ -135,7 +136,7 @@ void Twitterak::signUp(vector<string> words)
     } else {
         tempPassword = getpass("$ Password :"); // this can only hide the password
         cout << "$ Name : ";
-        cin >> tempName;
+        getline(cin , tempName);
 
         try {
             User temp(tempName, tempUserName, tempPassword);
@@ -152,48 +153,19 @@ void Twitterak::signUp(vector<string> words)
     // cin.ignore() ;
 }
 
-string Twitterak::help() const
+void Twitterak::help  (vector<string>words)
 {
-    system("clear");
+    cout << "login  : For login you have to sign in befor.\n"
+         << "signup : If you don't have acount account use this opstion to creat on.\n"
+         << "exit   : Close the program.\n";
 
-    ostringstream outPut;
-    outPut << "login  : For login you have to sign in befor.\n"
-           << "signup : If you don't have acount account use this opstion to creat on.\n"
-           << "exit   : Close the program.\n";
-
-    return outPut.str();
-}
-
-string Twitterak::helpLogin() const
-{
-    system("clear");
-    ostringstream outPut;
-    outPut
-        << "profile or me                        : For see your account details.\n"
-        << "edit profile                         : For edit your account details , like this -> edit profile birthdate 2000 12 12.\n"
-        << "delete account                       : If you want to delete your account(yes please do that!).\n"
-        << "tweet                                : When you want to add a tweet , like this -> tweet Hey ya loser! welcome to LA!\n"
-        << "@me or your username                 : If you want to see your tweets.\n"
-        << "another person username              : If you want to see tweet of another users.\n"
-        << "username:a number                    : If you want to see one of your tweets or another users tweets (number most be a number!).\n\n"
-        << "delete tweet number of that tweet    : If you want to delet that tweet(yes please delete all your bullshit tweets).\n"
-        << "edit tweet number of that tweet      : If you want to edit that tweet!\n"
-        << "retweet username:number              : When you want retweet another user tweet!\n"
-        << "quote tweet username:number add tweet: Exactly like retweet, but you add a tweet after number.\n"
-        << "like username:number of tweet        : If you want to like that tweet(please do not do that, just dislike bullshit tweets).\n"
-        << "dislike username:number of tweet     : If you want to dislike that tweet ,note that you most already liked that tweet before.\n"
-        << "logout                               : For logging out your account.\n"
-        << "exit or quit or q                    : For close the program.\n";
-
-    return outPut.str();
 }
 
 void Twitterak::userOptions(const string& userName)
 {
     string command;
-    cin.ignore();
 
-    unordered_map<string,void (*)()>commandMap {{"me",print()}};
+    //unordered_map<string,void (*)()>commandMap {{"me",print()}};
 
     while (command != "logout") 
     {
@@ -220,7 +192,7 @@ void Twitterak::userOptions(const string& userName)
 
             else if (words[0] == "help") //help
             {
-                cout << helpLogin();
+                //cout << helpLogin();
             }
 
             else if (words.size() >= 4 && words[0] + " " + words[1] == "edit profile") //edit profile somepart "somethinf  f f"
