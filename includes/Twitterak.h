@@ -29,8 +29,14 @@ private:
 
     short int findUser (const std::vector<std::string>&);
 
-    void goPrint(std::vector<std::string>);
-    void goTweet(std::vector<std::string>);
+    void goPrint        (std::vector<std::string>);
+    void goTweet        (std::vector<std::string>);
+    void goEditTweet    (std::vector<std::string>);
+    void goDelTweet     (std::vector<std::string>);
+    void goLikeTweet    (std::vector<std::string>);
+    void goDisLkeTweet  (std::vector<std::string>);
+    void goEditProfile  (std::vector<std::string>);
+    
     // void addHashtag  ()
 };
 

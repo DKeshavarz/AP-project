@@ -192,10 +192,15 @@ void Twitterak::userOptions(const string& userName)
     string command;
 
     unordered_map <string , void(Twitterak::*)(vector<string>) > connectiveMap ;
-    connectiveMap["profile"] = & Twitterak::goPrint ;
-    connectiveMap["me"]      = & Twitterak::goPrint ;
-    connectiveMap["tweet"]   = & Twitterak::goTweet ;
-
+    //connectiveMap["help"  ]      = & Twitterak::goPrint ;
+    connectiveMap["profile"]       = & Twitterak::goPrint ;
+    connectiveMap["me"]            = & Twitterak::goPrint ;
+    connectiveMap["tweet"]         = & Twitterak::goTweet ;
+    connectiveMap["edit tweet"]    = & Twitterak::goEditTweet ;
+    connectiveMap["delete tweet"]  = & Twitterak::goDelTweet  ;
+    connectiveMap["like"]          = & Twitterak::goLikeTweet  ;
+    connectiveMap["dislike"]       = & Twitterak::goDisLkeTweet;
+    connectiveMap["edit profile" ] = & Twitterak::goEditProfile ;
 
     while (command != "logout") 
     {
@@ -210,28 +215,19 @@ void Twitterak::userOptions(const string& userName)
 
             string tempCommand = words[0];
 
-            for(int i = 0 ; i + 1< words.size() && i < 4 ; ++i)
+            for(int i = 0 ; i < words.size() && i < 4 ; ++i)
             {
-                cout << "command is : " << tempCommand << '\n' ;
-                if(connectiveMap.count(words[0]))
+                cout << "Tempcommand is : " << tempCommand << ".\n" ;
+                if(connectiveMap.count(tempCommand))
                 {
-                    (this->*connectiveMap[words[0]])(words) ;
+                    (this->*connectiveMap[tempCommand])(words) ;
                     break ;
                 }
-                tempCommand += ' ' + words[i+1] ;
+                if(i + 1 < words.size())
+                    tempCommand += ' ' + words[i+1] ;
             }
 
-            if (words[0] == "help") //help
-            {
-                //cout << helpLogin();
-            }
-
-            else if (words.size() >= 4 && words[0] + " " + words[1] == "edit profile") //edit profile somepart "somethinf  f f"
-            {
-                    cout << usersMap[userName].changeProfile(words) << '\n';          
-            }
-
-            else if (command == "delete account") //delete account
+            if (command == "delete account") //delete account
             {
                 if (deleteAccount(userName))
                     command = "logout";
@@ -254,16 +250,6 @@ void Twitterak::userOptions(const string& userName)
                 cout << '\n' << usersMap[bringImportant(words[0])].getTweet(stoi(words[1]), stoi(words[1]) + 1) << '\n';
             }
 
-            else if (command.substr(0, 13) == "delete tweet ") //delete tweet 4
-            {
-                usersMap[userName].deleteTweet(bringImportant(command, 13));
-            }
-
-            else if (command.substr(0, 11) == "edit tweet ")  // edit tweet 8
-            {
-                usersMap[userName].editTweet(bringImportant(command, 11));
-            }
-
             else if (words.size() > 2 && words[0] == "retweet") // retweet @rrrrrr:rrr   ****chech user
             {
                 usersMap[userName].retweet(usersMap[words[1]], stoi(words[2]));
@@ -275,30 +261,6 @@ void Twitterak::userOptions(const string& userName)
                     words[4] += words[i];
                 }
                 usersMap[userName].retweet(usersMap[words[2]], stoi(words[3]), words[4]);
-            }
-
-            else if (words[0] == "like") // like @user:8
-            {
-                words[1] = bringImportant(words[1], 0);
-                if (words.size() == 3 && usersMap.count(words[1])) 
-                {
-                    usersMap[words[1]].increaseLike(userName, stoi(words[2]));
-                    
-                } else {
-                    cout << "! Invalid input after like \n";
-                }
-            }
-
-            else if(words[0] == "dislike")//dislike @username:4 //check user name  
-            {
-                words[1] = bringImportant(words[1], 0);
-                if (words.size() == 3 && usersMap.count(words[1])) 
-                {
-                    usersMap[words[1]].decreaseLike(userName, stoi(words[2]));
-                    
-                } else {
-                    cout << "! Invalid input after dislike \n";
-                }
             }
 
             else if (words[0] == "logout") 
@@ -315,10 +277,7 @@ void Twitterak::userOptions(const string& userName)
             }
 
 
-            else if (command == "") 
-            {
-                // empty
-            }
+            else if (command == "") ;
 
             else 
             {
@@ -343,7 +302,8 @@ bool Twitterak::deleteAccount(const string& userName)
     cin >> command;
 
     lowerStr(command);
-    if (command == "yes") {
+    if (command == "yes") 
+    {
         usersMap.erase(userName);
         return 1;
     }
@@ -363,10 +323,53 @@ void Twitterak::goPrint (vector<string> words)
     cout << "new print\n" ;
     cout << usersMap[tempUser].print(showPrivate) << '\n';
 }
-void Twitterak::goTweet(std::vector<std::string> words)
+void Twitterak::goTweet(vector<string> words)
 {
     //implementate validation
 
     cout << "new Tweet\n" ;
     usersMap[userName].addTweet(vecToStr(words,1));
+}
+void Twitterak::goEditTweet (vector<string> words)
+{
+    cout << "new edit Tweet \n" ;
+    usersMap[userName].editTweet(words[2]);
+}
+void Twitterak::goDelTweet  (vector<string>words)
+{
+    cout << "new del Tweet \n" ;
+    usersMap[userName].deleteTweet(words[2]);
+}
+void  Twitterak::goLikeTweet    (vector<string>words)
+{
+    cout << "new like Twwe \n" ;
+    words[1] = bringImportant(words[1], 0);
+    if (words.size() == 3 && usersMap.count(words[1])) 
+    {
+        usersMap[words[1]].increaseLike(userName, stoi(words[2]));
+        
+    } else {
+        cout << "! Invalid input after like \n";
+    }
+}
+void  Twitterak::goDisLkeTweet  (vector<string>words)
+{
+    cout << "new dislike Twwe \n" ;
+    words[1] = bringImportant(words[1], 0);
+    if (words.size() == 3 && usersMap.count(words[1])) 
+    {
+        usersMap[words[1]].decreaseLike(userName, stoi(words[2]));
+        
+    } else {
+        cout << "! Invalid input after dislike \n";
+    }
+}
+void Twitterak::goEditProfile  (vector<string>words)
+{
+    if (words.size() >= 4 && words[0] + " " + words[1] == "edit profile") //edit profile somepart "somethinf  f f"
+    {
+        cout << usersMap[userName].changeProfile(words) << '\n';          
+    }else {
+        cout << "! Invalid input edit profile \n";
+    }
 }

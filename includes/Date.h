@@ -18,7 +18,7 @@ private:
     int year;
     int month;
     int day;
-    int userAge {};
+    int userAge {19};
 };
 
 #endif
