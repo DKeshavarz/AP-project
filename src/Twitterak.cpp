@@ -15,6 +15,31 @@
 
 using namespace std;
 
+short int Twitterak::findUser (const vector<string>& words)
+{
+    short int userIndex {-1} ;
+
+    for(size_t i = 0 ; i < words.size() ; ++i)
+        if(words[i][0] == '@')
+            userIndex = i ;
+    //Cant't optimize with break beacaus : like @user:@user -> wrong command not index 1
+    if(userIndex > -1 && words[userIndex] == "@me")
+        return -1 ;
+
+    unordered_set <string> commandBeforUser {"like" , "dislike" , "profile"} ;
+    //This help in future just add command no need to change more 
+
+    if      (userIndex >   1)
+        throw invalid_argument("wrong @ place") ;
+    else if (userIndex ==  1 && commandBeforUser.find(words[0]) == commandBeforUser.end())
+        throw invalid_argument("wrong @ place") ;
+    //avoid logical error on : tweet @user "hhhhhh"   
+
+    if( userIndex > -1 && !usersMap.count(words[userIndex].substr(1))) //hey not done @mmmmm , mmmm
+        throw invalid_argument ("user not found") ;
+
+    return userIndex ; /* only -1 , 0 , 1*/
+}
 
 string Twitterak::defaultAdd() //add user format name , firsCharOf name + 1234,firsCharOf name
 {
@@ -163,9 +188,14 @@ void Twitterak::help  (vector<string>words)
 
 void Twitterak::userOptions(const string& userName)
 {
+    this->userName = userName ;
     string command;
 
-    //unordered_map<string,void (*)()>commandMap {{"me",print()}};
+    unordered_map <string , void(Twitterak::*)(vector<string>) > connectiveMap ;
+    connectiveMap["profile"] = & Twitterak::goPrint ;
+    connectiveMap["me"]      = & Twitterak::goPrint ;
+    connectiveMap["tweet"]   = & Twitterak::goTweet ;
+
 
     while (command != "logout") 
     {
@@ -178,19 +208,20 @@ void Twitterak::userOptions(const string& userName)
 
             vector<string> words = wordSeparator(command);
 
-            if (words[0] == "profile" || words[0] == "me")  //profile "mabyuser name"
+            string tempCommand = words[0];
+
+            for(int i = 0 ; i + 1< words.size() && i < 4 ; ++i)
             {
-                if (command.size() > 7) 
+                cout << "command is : " << tempCommand << '\n' ;
+                if(connectiveMap.count(words[0]))
                 {
-                    cout << usersMap[bringImportant(command, 8)].print(0) << '\n';
-                } 
-                else 
-                {
-                    cout << usersMap[userName].print(1) << '\n';
+                    (this->*connectiveMap[words[0]])(words) ;
+                    break ;
                 }
+                tempCommand += ' ' + words[i+1] ;
             }
 
-            else if (words[0] == "help") //help
+            if (words[0] == "help") //help
             {
                 //cout << helpLogin();
             }
@@ -204,11 +235,6 @@ void Twitterak::userOptions(const string& userName)
             {
                 if (deleteAccount(userName))
                     command = "logout";
-            }
-
-            else if (words[0] == "tweet") //tweet 7 
-            {
-                usersMap[userName].addTweet(bringImportant(command, 6));
             }
 
             else if (words[0] == "@me" || usersMap.count(bringImportant(command, 0))) // @username
@@ -323,4 +349,24 @@ bool Twitterak::deleteAccount(const string& userName)
     }
 
     return 0;
+}
+void Twitterak::goPrint (vector<string> words)
+{
+    //implementate validation
+
+
+    short int indexOfUser { findUser (words) } ;
+    string tempUser = indexOfUser == -1 ? userName : words[indexOfUser].substr(1) ;
+
+
+    bool showPrivate {words.size() < 2} ;
+    cout << "new print\n" ;
+    cout << usersMap[tempUser].print(showPrivate) << '\n';
+}
+void Twitterak::goTweet(std::vector<std::string> words)
+{
+    //implementate validation
+
+    cout << "new Tweet\n" ;
+    usersMap[userName].addTweet(vecToStr(words,1));
 }

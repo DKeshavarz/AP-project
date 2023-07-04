@@ -303,16 +303,16 @@ string User::print(bool showPrivate) const
 {
     ostringstream outPut;
 
-    outPut << "\nHeadercolor: " << headerColor;
     if (showPrivate) {
-        outPut << "\n\nPassword: " << password;
+        outPut << "Password: " << password << '\n' ;
     }
-    outPut << "\nName: " << firsName
-           << "\nUsername: " << userName
-           << "\nLink: " << link
-           << "\nBiography: " << biogarghy
-           << "\nCountry: " << country
-           << "\nage: " << birthDate.getAge() << '\n'; // error!
+    outPut << "Name: "          << firsName
+           << "\nUsername: "    << userName
+           << "\nLink: "        << link
+           << "\nBiography: "   << biogarghy
+           << "\nCountry: "     << country
+           << "\nHeadercolor: " << headerColor
+           << "\nage: "         << birthDate.getAge() ; 
     return outPut.str();
 }
 

@@ -7,12 +7,14 @@
 #ifndef TWITERAK_H
 #define TWITERAK_H
 
-class Twitterak {
+class Twitterak 
+{
 public:
     void run();
 
 private:
     std::unordered_map<std::string, User> usersMap;
+    std::string userName {} ;
     // std::unordered_map<std::string,std::unordered_set<std::string> > hashtagMap ;
 
     void logIn (std::vector<std::string>);
@@ -24,6 +26,11 @@ private:
 
     void userOptions  (const std::string&);
     bool deleteAccount(const std::string&);
+
+    short int findUser (const std::vector<std::string>&);
+
+    void goPrint(std::vector<std::string>);
+    void goTweet(std::vector<std::string>);
     // void addHashtag  ()
 };
 

@@ -1,5 +1,5 @@
-#include <vector>
 #include <string>
+#include <iostream>
 
 #include "Functions.h"
 
@@ -56,4 +56,21 @@ string bringImportant(const string& command, size_t start ) //sugest to pass arg
     }
 
     return important ;
+}
+
+string vecToStr (const vector<string> &words , size_t start)
+{
+    string outPut {};
+
+    for(size_t i = start ; i < words.size() ; ++i )
+    {
+        outPut += words[i] ;
+
+        if(i+1 < words.size()) 
+            outPut += ' ' ;
+
+        
+    }
+
+    return outPut ;
 }
